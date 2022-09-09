@@ -1,0 +1,9 @@
+# Node
+node_modules/
+
+# Logs
+lerna-debug.log
+npm-debug.log
+
+# IDE
+.idea/
