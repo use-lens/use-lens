@@ -1,0 +1,8 @@
+schema: '../../lens-api-schema.graphql'
+documents: '../../lens-api.graphql'
+generates:
+  ./generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo

@@ -1,0 +1,6 @@
+# Built files
+index.js
+generated.js
+
+# graphql-codegen
+generated.ts

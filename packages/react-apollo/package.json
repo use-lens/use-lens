@@ -1,0 +1,21 @@
+{
+  "name": "@use-lens/react-apollo",
+  "version": "0.0.1",
+  "description": "Lens API for Apollo Client in React",
+  "main": "dist/index.js",
+  "repository": "https://github.com/andriishupta/use-lens",
+  "author": "Andrii Shupta <andrii.shupta@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "generate": "graphql-codegen",
+    "compile": "tsc index.ts",
+    "build": "yarn run generate && yarn run compile"
+  },
+  "devDependencies": {
+    "@graphql-codegen/typescript-react-apollo": "^3.3.3"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.6.9"
+  }
+}
