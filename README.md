@@ -1,3 +1,3 @@
 # Use Lens
 
-List of libraries that hold generated Lens API oin form of hooks
+List of libraries that hold generated Lens API in form of hooks
