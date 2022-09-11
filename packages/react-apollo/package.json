@@ -2,7 +2,7 @@
   "name": "@use-lens/react-apollo",
   "version": "0.0.1",
   "description": "Lens API for Apollo Client in React",
-  "main": "dist/index.js",
+  "main": "index.js",
   "repository": "https://github.com/andriishupta/use-lens",
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
@@ -16,6 +16,7 @@
     "@graphql-codegen/typescript-react-apollo": "^3.3.3"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.9"
+    "@apollo/client": "^3.6.9",
+    "@use-lens/constants": "*"
   }
 }

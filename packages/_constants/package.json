@@ -1,0 +1,14 @@
+{
+  "name": "@use-lens/constants",
+  "version": "0.0.1",
+  "description": "Common constants shared across @use-lens",
+  "main": "index.js",
+  "repository": "https://github.com/andriishupta/use-lens",
+  "author": "Andrii Shupta <andrii.shupta@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "compile": "tsc index.ts",
+    "build": "yarn run compile"
+  }
+}
