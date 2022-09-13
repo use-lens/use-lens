@@ -11,6 +11,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib",
+    "README.md"
+  ],
   "scripts": {
     "pregenerate": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql} .",
     "generate": "graphql-codegen",

@@ -11,6 +11,14 @@
   "publishConfig": {
     "access": "public"
   },
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib",
+    "package.json",
+    "README.md"
+  ],
   "bin": {
     "use-lens": "./lib/index.js"
   },
@@ -21,8 +29,7 @@
   },
   "dependencies": {
     "chalk": "^5.0.1",
-    "commander": "^9.4.0",
-    "node-fetch": "^3.2.10"
+    "commander": "^9.4.0"
   },
   "gitHead": "65a9b977a5bb0f1da2c3d0622df1a8b9bcc12a73"
 }
