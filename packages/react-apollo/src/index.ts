@@ -1,2 +1,2 @@
-// @ts-ignore: ignore generated file
+// @ts-ignore: ignore missing file - generated
 export * from './lens-api';
