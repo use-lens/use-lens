@@ -8,6 +8,9 @@
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "use-lens": "./lib/index.js"
   },
@@ -20,5 +23,6 @@
     "chalk": "^5.0.1",
     "commander": "^9.4.0",
     "node-fetch": "^3.2.10"
-  }
+  },
+  "gitHead": "65a9b977a5bb0f1da2c3d0622df1a8b9bcc12a73"
 }

@@ -8,6 +8,9 @@
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "pregenerate": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql} .",
     "generate": "graphql-codegen",
