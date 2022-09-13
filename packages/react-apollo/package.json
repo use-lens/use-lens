@@ -28,7 +28,6 @@
     "@graphql-codegen/typescript-react-apollo": "^3.3.3"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.9",
-    "@use-lens/constants": "*"
+    "@apollo/client": "^3.6.9"
   }
 }
