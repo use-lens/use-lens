@@ -1,20 +1,20 @@
 query GlobalProtocolStats {
-    globalProtocolStats(request: null) {
-        totalProfiles
-        totalBurntProfiles
-        totalPosts
-        totalMirrors
-        totalComments
-        totalCollects
-        totalFollows
-        totalRevenue {
-            asset {
-                name
-                symbol
-                decimals
-                address
-            }
-            value
-        }
+  globalProtocolStats(request: null) {
+    totalProfiles
+    totalBurntProfiles
+    totalPosts
+    totalMirrors
+    totalComments
+    totalCollects
+    totalFollows
+    totalRevenue {
+      asset {
+        name
+        symbol
+        decimals
+        address
+      }
+      value
     }
+  }
 }

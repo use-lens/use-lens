@@ -16,6 +16,8 @@
   },
   "files": [
     "lib",
+    "lens-api.documents.graphql",
+    "lens-api.schema.graphql",
     "package.json",
     "README.md"
   ],
