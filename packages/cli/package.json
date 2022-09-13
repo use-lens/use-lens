@@ -9,8 +9,12 @@
   "license": "MIT",
   "private": false,
   "bin": {
-    "use-lens": "./index.js"
+    "use-lens": "./lib/index.js"
   },
+  "directories": {
+    "lib": "lib"
+  },
+  "files": ["lib"],
   "scripts": {
     "compile": "tsc --project tsconfig.json",
     "build": "yarn run compile"

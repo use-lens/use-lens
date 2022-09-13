@@ -1,2 +1,6 @@
 # Built files
 lib/
+
+# Lens API Files
+lens-api.schema.graphql
+lens-api.documents.graphql
