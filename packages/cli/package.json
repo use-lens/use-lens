@@ -11,11 +11,8 @@
   "bin": {
     "use-lens": "./lib/index.js"
   },
-  "directories": {
-    "lib": "lib"
-  },
-  "files": ["lib"],
   "scripts": {
+    "precompile": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql} .",
     "compile": "tsc --project tsconfig.json",
     "build": "yarn run compile"
   },
