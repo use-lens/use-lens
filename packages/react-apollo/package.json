@@ -2,14 +2,16 @@
   "name": "@use-lens/react-apollo",
   "version": "0.0.1",
   "description": "Lens API for Apollo Client in React",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": "https://github.com/andriishupta/use-lens",
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
   "private": false,
   "scripts": {
+    "pregenerate": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql} .",
     "generate": "graphql-codegen",
-    "compile": "tsc index.ts",
+    "compile": "tsc --project tsconfig.json",
     "build": "yarn run generate && yarn run compile"
   },
   "devDependencies": {

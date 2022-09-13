@@ -2,7 +2,8 @@
   "name": "@use-lens/cli",
   "version": "0.0.1",
   "description": "CLI for generation Lens API",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": "https://github.com/andriishupta/use-lens",
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
@@ -11,7 +12,7 @@
     "use-lens": "./index.js"
   },
   "scripts": {
-    "compile": "tsc index.ts",
+    "compile": "tsc --project tsconfig.json",
     "build": "yarn run compile"
   },
   "dependencies": {

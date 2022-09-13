@@ -1,6 +1,7 @@
 # Built files
-index.js
-generated.js
+lib/
 
 # graphql-codegen
-generated.ts
+src/lens-api/
+lens-api.schema.graphql
+lens-api.documents.graphql
