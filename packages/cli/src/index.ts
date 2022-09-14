@@ -1,7 +1,8 @@
 #! /usr/bin/env node
-import { Command } from 'commander'
+import { Command, Argument } from 'commander'
 import { generate } from './actions/generate'
 import { version } from '../package.json'
+import { AVAILABLE_LIBRARIES } from './constants';
 
 const program = new Command();
 
@@ -11,8 +12,9 @@ program
   .version(version);
 
 program
-  .command('generate <library>')
-  .description('Lens API generation')
+  .command('generate')
+  .addArgument(new Argument('<library>', 'project type').choices(AVAILABLE_LIBRARIES))
+  .description('Lens API generation with graphql-codegen')
   .action(generate)
 
 program.parse();

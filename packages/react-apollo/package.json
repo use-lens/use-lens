@@ -24,7 +24,7 @@
     "pregenerate": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql,.use-lens.json} .",
     "generate": "graphql-codegen",
     "compile": "tsc --project tsconfig.json",
-    "build": "yarn run generate && yarn run compile"
+    "build": "npm run generate && npm run compile"
   },
   "devDependencies": {
     "@graphql-codegen/typescript-react-apollo": "^3.3.3"

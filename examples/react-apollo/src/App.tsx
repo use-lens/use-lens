@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useGlobalProtocolStatsQuery, GlobalProtocolStats } from '@use-lens/react-apollo';
+import { useGlobalProtocolStatsQuery } from '@use-lens/react-apollo';
 
 import logo from './logo.svg';
 import './App.css';

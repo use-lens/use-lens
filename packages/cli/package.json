@@ -28,11 +28,15 @@
   "scripts": {
     "precompile": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql,.use-lens.json} .",
     "compile": "tsc --project tsconfig.json",
-    "build": "yarn run compile"
+    "build": "npm run compile"
   },
   "dependencies": {
     "chalk": "^5.0.1",
-    "commander": "^9.4.0"
+    "commander": "^9.4.0",
+    "node-fetch": "^3.2.10"
   },
-  "gitHead": "65a9b977a5bb0f1da2c3d0622df1a8b9bcc12a73"
+  "gitHead": "65a9b977a5bb0f1da2c3d0622df1a8b9bcc12a73",
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.2"
+  }
 }

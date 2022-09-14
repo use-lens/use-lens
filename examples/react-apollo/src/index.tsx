@@ -5,10 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 
-import { LENS_API_URL } from '@use-lens/react-apollo'
-
 const client = new ApolloClient({
-  uri: LENS_API_URL,
+  uri: 'https://api.lens.dev',
   cache: new InMemoryCache(),
 });
 
