@@ -3672,11 +3672,6 @@
     "@typescript-eslint/types" "5.37.0"
     eslint-visitor-keys "^3.3.0"
 
-"@use-lens/react-apollo@*":
-  version "0.0.1-alpha.8"
-  dependencies:
-    "@apollo/client" "^3.6.9"
-
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"

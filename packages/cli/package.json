@@ -28,7 +28,7 @@
   "scripts": {
     "precompile": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql,.use-lens.json} .",
     "compile": "tsc --project tsconfig.json",
-    "build": "npm run compile"
+    "build": "yarn run compile"
   },
   "dependencies": {
     "chalk": "^5.0.1",
