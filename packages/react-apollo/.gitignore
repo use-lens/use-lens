@@ -1,7 +1,10 @@
-# Built files
+# Build files
 lib/
 
-# graphql-codegen
+# graphql-codegen files
 src/lens-api/
+
+# @use-lens files
+.use-lens.json
 lens-api.schema.graphql
 lens-api.documents.graphql

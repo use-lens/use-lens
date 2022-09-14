@@ -8,6 +8,9 @@
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
   "private": false,
+  "bin": {
+    "use-lens": "./lib/index.js"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -16,16 +19,14 @@
   },
   "files": [
     "lib",
+    ".use-lens.json",
     "lens-api.documents.graphql",
     "lens-api.schema.graphql",
     "package.json",
     "README.md"
   ],
-  "bin": {
-    "use-lens": "./lib/index.js"
-  },
   "scripts": {
-    "precompile": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql} .",
+    "precompile": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql,.use-lens.json} .",
     "compile": "tsc --project tsconfig.json",
     "build": "yarn run compile"
   },

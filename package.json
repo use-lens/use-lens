@@ -7,7 +7,6 @@
   ],
   "scripts": {
     "examples:start": "lerna run start --scope --",
-    "prebuild": "lerna version --no-private",
     "build": "lerna run --scope '@use-lens/*' build",
     "publish": "yarn build && lerna publish --no-private --include-merged-tags"
   },
