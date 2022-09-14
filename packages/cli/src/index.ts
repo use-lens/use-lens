@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 import { Command } from 'commander'
 import { generate } from './actions/generate'
-const version = require('./package.json').version
+import { version } from '../package.json'
 
 const program = new Command();
 
