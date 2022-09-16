@@ -1,3 +1,6 @@
+# WIP
+Approx. initial implemetation finish date: 20 September 2022
+
 # Use Lens
 
 List of libraries that hold generated Lens API in form of hooks
