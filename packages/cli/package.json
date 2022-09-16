@@ -28,7 +28,7 @@
     "README.md"
   ],
   "scripts": {
-    "precompile": "cp ../../{lens-api.schema.graphql,lens-api.documents.graphql,.use-lens.json} ./api && cp ../react-apollo/codegen.yml ./api/react-apollo.yml",
+    "precompile": "cp ../../api/{lens-api.schema.graphql,lens-api.documents.graphql,.use-lens.json} ./api && cp ../react-apollo/codegen.yml ./api/react-apollo.yml",
     "compile": "tsc --project tsconfig.json",
     "build": "yarn run compile"
   },
