@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import axios from 'axios';
 import {
   createWriteStream,
   createReadStream
@@ -13,15 +12,11 @@ import {
   GRAPHQL_CODEGEN_FILENAME
 } from '../constants';
 
-const cliPath = path.join(__dirname, '..', '..');
+const apiPath = path.join(__dirname, '..', '..', 'api');
 
 export const generate = async (library: string) => {
-  console.log('creating codegen.yml file...');
-  await downloadFile(getRawCodegenUrl(library), `./${GRAPHQL_CODEGEN_FILENAME}`).catch(e => {
-    console.error('Error in [downloadFile]');
-    console.error(e);
-    throw new Error(e);
-  });
+  console.log('adding graphql-codegen config...');
+  await loadFile(`${library}.yml`, `./${GRAPHQL_CODEGEN_FILENAME}`)
 
   console.log('adding Lens API files...');
   await Promise.all([
@@ -40,11 +35,9 @@ export const generate = async (library: string) => {
   console.log('done!');
 };
 
-const getRawCodegenUrl = (library: string) => `https://raw.githubusercontent.com/andriishupta/use-lens/main/packages/${library}/codegen.yml`;
-
 const loadFile = async (loadName: string, filePath: string) => {
   const writeStream = createWriteStream(filePath);
-  const readStream = createReadStream(path.join(cliPath, loadName));
+  const readStream = createReadStream(path.join(apiPath, loadName));
 
   await new Promise((resolve, reject) => {
     let error: Error;
@@ -61,30 +54,6 @@ const loadFile = async (loadName: string, filePath: string) => {
         reject(err)
       });
   });
-};
-
-const downloadFile = async (downloadUrl: string, filePath: string) => {
-  const writeStream = createWriteStream(filePath);
-
-  await axios.get(downloadUrl, { responseType: 'stream' }).then(response =>
-    new Promise((resolve, reject) => {
-      let error: Error;
-
-      response.data.pipe(writeStream);
-
-      writeStream.on('error', err => {
-        error = err;
-        writeStream.close();
-        reject(err);
-      });
-
-      writeStream.on('close', () => {
-        if (!error) {
-          resolve(true);
-        }
-      });
-    })
-  );
 };
 
 const executeCodegen = async () => {

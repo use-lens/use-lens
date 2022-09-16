@@ -2,6 +2,5 @@
 lib/
 
 # @use-lens files
-.use-lens.json
-lens-api.schema.graphql
-lens-api.documents.graphql
+api/*
+!api/.gitkeep
