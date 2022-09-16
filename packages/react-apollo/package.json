@@ -17,6 +17,7 @@
   "files": [
     "lib",
     ".use-lens.json",
+    "LICENSE",
     "package.json",
     "README.md"
   ],

@@ -1,15 +1,34 @@
 import chalk from 'chalk';
-import fetch from 'node-fetch';
-import { createWriteStream } from 'fs';
+import axios from 'axios';
+import {
+  createWriteStream,
+  createReadStream
+} from 'fs';
+import path from 'path';
 import { exec } from 'child_process';
+import {
+  LENS_API_DOCUMENTS_FILENAME,
+  LENS_API_SCHEMA_FILENAME,
+  USE_LENS_META_FILENAME,
+  GRAPHQL_CODEGEN_FILENAME
+} from '../constants';
+
+const cliPath = path.join(__dirname, '..', '..');
 
 export const generate = async (library: string) => {
   console.log('creating codegen.yml file...');
-  await downloadFile(getRawCodegenUrl(library), './codegen.yml').catch(e => {
+  await downloadFile(getRawCodegenUrl(library), `./${GRAPHQL_CODEGEN_FILENAME}`).catch(e => {
     console.error('Error in [downloadFile]');
     console.error(e);
     throw new Error(e);
   });
+
+  console.log('adding Lens API files...');
+  await Promise.all([
+    loadFile(LENS_API_DOCUMENTS_FILENAME, `./${LENS_API_DOCUMENTS_FILENAME}`),
+    loadFile(LENS_API_SCHEMA_FILENAME, `./${LENS_API_SCHEMA_FILENAME}`),
+    loadFile(USE_LENS_META_FILENAME, `./${USE_LENS_META_FILENAME}`)
+  ])
 
   console.log('executing graphql-codegen...');
   await executeCodegen().catch(e => {
@@ -21,17 +40,51 @@ export const generate = async (library: string) => {
   console.log('done!');
 };
 
-// todo: remove token
-const getRawCodegenUrl = (library: string) => `https://raw.githubusercontent.com/andriishupta/use-lens/main/packages/${library}/codegen.yml?token=GHSAT0AAAAAABWD73ND56YTFYVKAHIXKWCEYZBYI4A`;
+const getRawCodegenUrl = (library: string) => `https://raw.githubusercontent.com/andriishupta/use-lens/main/packages/${library}/codegen.yml`;
 
-const downloadFile = async (url: string, path: string) => {
-  const res = await fetch(url);
-  const fileStream = createWriteStream(path);
+const loadFile = async (loadName: string, filePath: string) => {
+  const writeStream = createWriteStream(filePath);
+  const readStream = createReadStream(path.join(cliPath, loadName));
+
   await new Promise((resolve, reject) => {
-    res.body!.pipe(fileStream);
-    res.body!.on('error', reject);
-    fileStream.on('finish', resolve);
+    let error: Error;
+
+    readStream.pipe(writeStream)
+      .on('close', function () {
+        if (!error) {
+          resolve(true)
+        }
+      })
+      .on('error', (err) => {
+        error = err
+        console.error(error);
+        reject(err)
+      });
   });
+};
+
+const downloadFile = async (downloadUrl: string, filePath: string) => {
+  const writeStream = createWriteStream(filePath);
+
+  await axios.get(downloadUrl, { responseType: 'stream' }).then(response =>
+    new Promise((resolve, reject) => {
+      let error: Error;
+
+      response.data.pipe(writeStream);
+
+      writeStream.on('error', err => {
+        error = err;
+        writeStream.close();
+        reject(err);
+      });
+
+      writeStream.on('close', () => {
+        if (!error) {
+          resolve(true);
+        }
+      });
+    })
+  );
 };
 
 const executeCodegen = async () => {

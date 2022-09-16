@@ -7,7 +7,6 @@
   ],
   "scripts": {
     "examples:start": "lerna run start --scope",
-    "postinstall": "yarn run build",
     "build": "lerna run --scope '@use-lens/*' build",
     "prepublish": "yarn run build",
     "publish": "lerna publish --no-private"

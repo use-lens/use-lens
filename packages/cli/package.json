@@ -22,6 +22,7 @@
     ".use-lens.json",
     "lens-api.documents.graphql",
     "lens-api.schema.graphql",
+    "LICENSE",
     "package.json",
     "README.md"
   ],
@@ -31,12 +32,13 @@
     "build": "yarn run compile"
   },
   "dependencies": {
+    "@graphql-codegen/cli": "^2.12.0",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.3",
+    "axios": "^0.27.2",
     "chalk": "^5.0.1",
-    "commander": "^9.4.0",
-    "node-fetch": "^3.2.10"
+    "commander": "^9.4.0"
   },
-  "gitHead": "65a9b977a5bb0f1da2c3d0622df1a8b9bcc12a73",
-  "devDependencies": {
-    "@types/node-fetch": "^2.6.2"
-  }
+  "gitHead": "65a9b977a5bb0f1da2c3d0622df1a8b9bcc12a73"
 }
