@@ -1,6 +1,6 @@
 // ## How to generate Documents
 //
-// - take latest API
+// - take the latest API
 // - load gitsubmodule `api-examples`
 // - go through folder `src`
 // - take all files except /abi
