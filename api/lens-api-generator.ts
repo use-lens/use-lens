@@ -1,4 +1,4 @@
-// ## How to generate Documents
+// # How to generate Documents
 //
 // - take the latest API
 // - load gitsubmodule `api-examples`
