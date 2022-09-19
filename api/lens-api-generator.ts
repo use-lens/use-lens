@@ -1,19 +1,19 @@
-// # How to generate Documents
-//
-// - take the latest API
-// - load gitsubmodule `api-examples`
-// - go through folder `src`
-// - take all files except /abi
-// - take out Private variable
-// - append to lens-api.document
+require('dotenv').config({ path: './lens-api-examples/.env' })
 
 import {
   createWriteStream,
-  existsSync
+  writeFileSync,
 } from 'fs';
+import { appendFile } from 'fs/promises';
+
 import axios from 'axios';
 
-import { LENS_API_SCHEMA_FILENAME } from '@use-lens/cli/lib/constants';
+import {
+  LENS_API_DOCUMENTS_FILENAME,
+  LENS_API_SCHEMA_FILENAME
+} from '@use-lens/cli/lib/constants';
+
+import { LENS_API_DOCUMENTS } from './lens-api-documents';
 
 const lensApiGenerator = async () => {
   // await downloadFile('https://api.lens.dev', `./api/${LENS_API_SCHEMA_FILENAME}`)
@@ -21,10 +21,22 @@ const lensApiGenerator = async () => {
 };
 
 const generateLensApiDocuments = async () => {
-  if (!existsSync('../lens-api-examples')) {
-    console.error('Git submodule "lens-api-examples" doesn\'t exists');
-    throw new Error('NO_API');
+  console.log('generating documents!')
+
+  writeFileSync(`./api/${LENS_API_DOCUMENTS_FILENAME}`, '');
+
+  for (const documentKey of Object.keys(LENS_API_DOCUMENTS)) {
+    const documentName = snake2Pascal(documentKey);
+    const documentValue = LENS_API_DOCUMENTS[documentKey]
+
+    const documentValueWithName = documentValue
+      .replace('query', `query ${documentName}`)
+      .replace('mutation', `mutation ${documentName}`);
+
+    await appendFile(`./api/${LENS_API_DOCUMENTS_FILENAME}`, `${documentValueWithName}\n`)
   }
+
+  console.log('generation finished!')
 };
 
 const downloadLensSchemaFile = async (downloadUrl: string, filePath: string) => {
@@ -52,7 +64,16 @@ const downloadLensSchemaFile = async (downloadUrl: string, filePath: string) => 
   );
 };
 
+const snake2Pascal = (str: any) => {
+  str = str.toLowerCase();
+  str = str.split('_');
+  for (let i = 0; i < str.length; i++) {
+    str[ i ] = str[ i ].slice(0, 1).toUpperCase() + str[ i ].slice(1, str[ i ].length);
+  }
+  return str.join('');
+};
 
+// run generation:
 lensApiGenerator().then(() => console.log('API has been generated successfully!')).catch(e => {
   console.error('Error during API generation', e);
   throw new Error(e);
