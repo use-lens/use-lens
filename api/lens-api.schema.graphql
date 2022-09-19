@@ -337,7 +337,7 @@ type ProfileStats {
 scalar Sources
 
 union FollowModule =
-    FeeFollowModuleSettings
+  FeeFollowModuleSettings
   | ProfileFollowModuleSettings
   | RevertFollowModuleSettings
   | UnknownFollowModuleSettings
@@ -521,6 +521,9 @@ type MetadataOutput {
 
   # The main focus of the publication
   mainContentFocus: PublicationMainFocus!
+
+  # The main focus of the publication
+  animatedUrl: Url
 }
 
 # Markdown scalar type
@@ -570,7 +573,7 @@ enum PublicationMainFocus {
 scalar DateTime
 
 union CollectModule =
-    FreeCollectModuleSettings
+  FreeCollectModuleSettings
   | FeeCollectModuleSettings
   | LimitedFeeCollectModuleSettings
   | LimitedTimedFeeCollectModuleSettings
@@ -701,7 +704,7 @@ type UnknownCollectModuleSettings {
 scalar CollectModuleData
 
 union ReferenceModule =
-    FollowOnlyReferenceModuleSettings
+  FollowOnlyReferenceModuleSettings
   | UnknownReferenceModuleSettings
 
 type FollowOnlyReferenceModuleSettings {
@@ -875,6 +878,7 @@ input ExplorePublicationRequest {
   # If you wish to exclude any results for profile ids
   excludeProfileIds: [ProfileId!]
   metadata: PublicationMetadataFilters
+  customFilters: [CustomFiltersTypes!] = []
 }
 
 # limit custom scalar type
@@ -931,6 +935,11 @@ input PublicationMetadataTagsFilter {
   all: [String!]
 }
 
+# The custom filters types
+enum CustomFiltersTypes {
+  GARDENERS
+}
+
 # The paginated publication result
 type ExploreProfileResult {
   items: [Profile!]!
@@ -942,6 +951,7 @@ input ExploreProfilesRequest {
   cursor: Cursor
   timestamp: TimestampScalar
   sortCriteria: ProfileSortCriteria!
+  customFilters: [CustomFiltersTypes!] = []
 }
 
 # profile sort criteria
@@ -1313,11 +1323,12 @@ type PaginatedNotificationResult {
 }
 
 union Notification =
-    NewFollowerNotification
+  NewFollowerNotification
   | NewCollectNotification
   | NewCommentNotification
   | NewMirrorNotification
   | NewMentionNotification
+  | NewReactionNotification
 
 type NewFollowerNotification {
   notificationId: NotificationId!
@@ -1362,6 +1373,16 @@ type NewMentionNotification {
 
 union MentionPublication = Post | Comment
 
+type NewReactionNotification {
+  notificationId: NotificationId!
+  createdAt: DateTime!
+
+  # The profile
+  profile: Profile!
+  reaction: ReactionTypes!
+  publication: Publication!
+}
+
 input NotificationRequest {
   limit: LimitScalar
   cursor: Cursor
@@ -1372,6 +1393,7 @@ input NotificationRequest {
   # The App Id
   sources: [Sources!] = []
   metadata: PublicationMetadataFilters
+  customFilters: [CustomFiltersTypes!] = []
 }
 
 input ProfileQueryRequest {
@@ -1469,6 +1491,7 @@ input PublicationsQueryRequest {
   # The publication id
   publicationIds: [InternalPublicationId!]
   metadata: PublicationMetadataFilters
+  customFilters: [CustomFiltersTypes!] = []
 }
 
 input PublicationQueryRequest {
@@ -1577,6 +1600,7 @@ input SearchQueryRequest {
   # The search term
   query: Search!
   type: SearchRequestTypes!
+  customFilters: [CustomFiltersTypes!] = []
 
   # The App Id
   sources: [Sources!] = []
@@ -1673,7 +1697,7 @@ input ProfileOnChainIdentityRequest {
 }
 
 union ProxyActionStatusResultUnion =
-    ProxyActionStatusResult
+  ProxyActionStatusResult
   | ProxyActionError
   | ProxyActionQueued
 
