@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "examples:start": "lerna run start --scope",
+    "generate-api": "ts-node api/lens-api-generator.ts",
     "build": "lerna run --scope '@use-lens/*' build",
     "prepublish": "yarn run build",
     "publish": "lerna publish --no-private"
@@ -16,6 +17,7 @@
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-operations": "^2.5.3",
     "@types/node": "^18.7.16",
+    "axios": "^0.27.2",
     "graphql": "^16.6.0",
     "lerna": "^5.5.0",
     "nx": "^14.7.3",

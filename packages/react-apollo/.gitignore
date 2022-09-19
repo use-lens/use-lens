@@ -2,7 +2,8 @@
 lib/
 
 # graphql-codegen files
-src/lens-api/
+src/lens-api/*
+!src/lens-api/.gitkeep
 
 # @use-lens files
 .use-lens.json
