@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "examples:start": "lerna run start --scope",
+    "pregenerate-api": "cp -R ./lens-api-examples/src/graphql/*.graphql ./api/documents",
     "generate-api": "ts-node --transpileOnly ./api/lens-api-generator.ts",
     "build": "lerna run --scope '@use-lens/*' build",
     "prepublish": "yarn run build",
@@ -16,11 +17,12 @@
     "@graphql-codegen/cli": "^2.12.0",
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@types/multistream": "^4.1.0",
     "@types/node": "^18.7.16",
     "axios": "^0.27.2",
-    "dotenv": "^16.0.2",
     "graphql": "^16.6.0",
     "lerna": "^5.5.0",
+    "multistream": "^4.1.0",
     "nx": "^14.7.3",
     "typescript": "^4.8.2"
   }

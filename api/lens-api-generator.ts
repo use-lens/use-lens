@@ -1,10 +1,15 @@
-require('dotenv').config({ path: './lens-api-examples/.env' })
-
 import {
+  createReadStream,
   createWriteStream,
   writeFileSync,
 } from 'fs';
-import { appendFile } from 'fs/promises';
+import {
+  readdir,
+} from 'fs/promises';
+
+import { join } from 'path'
+
+import multi from 'multistream'
 
 import axios from 'axios';
 
@@ -13,7 +18,7 @@ import {
   LENS_API_SCHEMA_FILENAME
 } from '@use-lens/cli/lib/constants';
 
-import { LENS_API_DOCUMENTS } from './lens-api-documents';
+const TESTNET_QUERIES = ['create-profile.graphql']
 
 const lensApiGenerator = async () => {
   // await downloadFile('https://api.lens.dev', `./api/${LENS_API_SCHEMA_FILENAME}`)
@@ -22,21 +27,32 @@ const lensApiGenerator = async () => {
 
 const generateLensApiDocuments = async () => {
   console.log('generating documents!')
-
+  // empty file
   writeFileSync(`./api/${LENS_API_DOCUMENTS_FILENAME}`, '');
 
-  for (const documentKey of Object.keys(LENS_API_DOCUMENTS)) {
-    const documentName = snake2Pascal(documentKey);
-    const documentValue = LENS_API_DOCUMENTS[documentKey]
+  // todo: separate testnet somehow
+  const fileNames = (await readdir('./api/documents')).filter((fileName) => !TESTNET_QUERIES.includes(fileName))
+  const fileStreams = fileNames.map(fileName => createReadStream(join('./api/documents', fileName)))
+  const writeStream = createWriteStream(join('./api', LENS_API_DOCUMENTS_FILENAME));
 
-    const documentValueWithName = documentValue
-      .replace('query', `query ${documentName}`)
-      .replace('mutation', `mutation ${documentName}`);
+  return new Promise((resolve, reject) => {
+    // type mismatch
+    // @ts-ignore
+    new multi(fileStreams).pipe(writeStream);
 
-    await appendFile(`./api/${LENS_API_DOCUMENTS_FILENAME}`, `${documentValueWithName}\n`)
-  }
+    let error
+    writeStream.on('error', err => {
+      error = err;
+      writeStream.close();
+      reject(err);
+    });
 
-  console.log('generation finished!')
+    writeStream.on('close', () => {
+      if (!error) {
+        resolve(true);
+      }
+    });
+  })
 };
 
 const downloadLensSchemaFile = async (downloadUrl: string, filePath: string) => {
@@ -62,15 +78,6 @@ const downloadLensSchemaFile = async (downloadUrl: string, filePath: string) => 
       });
     })
   );
-};
-
-const snake2Pascal = (str: any) => {
-  str = str.toLowerCase();
-  str = str.split('_');
-  for (let i = 0; i < str.length; i++) {
-    str[ i ] = str[ i ].slice(0, 1).toUpperCase() + str[ i ].slice(1, str[ i ].length);
-  }
-  return str.join('');
 };
 
 // run generation:
