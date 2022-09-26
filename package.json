@@ -9,10 +9,14 @@
     "examples:start": "lerna run start --scope",
     "pregenerate-api": "cp -R ./lens-api-examples/src/graphql/*.graphql ./api/documents",
     "generate-api": "ts-node --transpileOnly ./api/lens-api-generator.ts",
+    "prebuild:latest": "yarn run generate-api",
+    "prebuild:testnet": "TESTNET=true yarn run generate-api",
     "build": "lerna run --scope '@use-lens/*' build",
-    "publish:manual": "yarn run build && lerna publish --no-private",
-    "version:latest": "lerna version patch --no-private",
-    "version:testnet": "lerna version prepatch --preid testnet --no-private"
+    "build:latest": "yarn run build",
+    "build:testnet": "yarn run build",
+    "version:latest": "yarn run build && lerna version patch --no-private --yes",
+    "version:testnet": "yarn run build && lerna version prepatch --preid testnet --no-private --yes",
+    "publish": "lerna publish from-git --no-private"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.12.0",
