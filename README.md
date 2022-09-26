@@ -26,3 +26,5 @@ Chore Todo:
 - take all files except /abi
 - take out Private variable
 - append to lens-api.document
+
+## LICENSE
