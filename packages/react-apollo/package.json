@@ -32,5 +32,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9"
-  }
+  },
+  "gitHead": "9928367845fa4de18a4093be965af7433acb0ea2"
 }
