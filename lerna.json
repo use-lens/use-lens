@@ -3,7 +3,7 @@
   "useNx": true,
   "useWorkspaces": true,
   "npmClient": "yarn",
-  "version": "0.0.5-testnet.0",
+  "version": "0.0.5",
   "command": {
     "version": {
       "allowBranch": "main",
