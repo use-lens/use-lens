@@ -167,6 +167,8 @@ type Post {
   collectedBy: Wallet
   reaction(request: ReactionFieldResolverRequest): ReactionTypes
   hasCollectedByMe: Boolean!
+  canComment(profileId: ProfileId): CanCommentResponse!
+  canMirror(profileId: ProfileId): CanMirrorResponse!
   mirrors(by: ProfileId): [InternalPublicationId!]!
 }
 
@@ -337,7 +339,7 @@ type ProfileStats {
 scalar Sources
 
 union FollowModule =
-  FeeFollowModuleSettings
+    FeeFollowModuleSettings
   | ProfileFollowModuleSettings
   | RevertFollowModuleSettings
   | UnknownFollowModuleSettings
@@ -573,7 +575,7 @@ enum PublicationMainFocus {
 scalar DateTime
 
 union CollectModule =
-  FreeCollectModuleSettings
+    FreeCollectModuleSettings
   | FeeCollectModuleSettings
   | LimitedFeeCollectModuleSettings
   | LimitedTimedFeeCollectModuleSettings
@@ -704,8 +706,9 @@ type UnknownCollectModuleSettings {
 scalar CollectModuleData
 
 union ReferenceModule =
-  FollowOnlyReferenceModuleSettings
+    FollowOnlyReferenceModuleSettings
   | UnknownReferenceModuleSettings
+  | DegreesOfSeparationReferenceModuleSettings
 
 type FollowOnlyReferenceModuleSettings {
   # The reference modules enum
@@ -716,6 +719,7 @@ type FollowOnlyReferenceModuleSettings {
 # The reference module types
 enum ReferenceModules {
   FollowerOnlyReferenceModule
+  DegreesOfSeparationReferenceModule
   UnknownReferenceModule
 }
 
@@ -730,6 +734,21 @@ type UnknownReferenceModuleSettings {
 
 # reference module data scalar type
 scalar ReferenceModuleData
+
+type DegreesOfSeparationReferenceModuleSettings {
+  # The reference modules enum
+  type: ReferenceModules!
+  contractAddress: ContractAddress!
+
+  # Applied to comments
+  commentsRestricted: Boolean!
+
+  # Applied to mirrors
+  mirrorsRestricted: Boolean!
+
+  # Degrees of separation
+  degreesOfSeparation: Int!
+}
 
 type Wallet {
   address: EthereumAddress!
@@ -747,6 +766,14 @@ enum ReactionTypes {
 input ReactionFieldResolverRequest {
   # Profile id
   profileId: ProfileId
+}
+
+type CanCommentResponse {
+  result: Boolean!
+}
+
+type CanMirrorResponse {
+  result: Boolean!
 }
 
 # The social comment
@@ -797,6 +824,8 @@ type Comment {
   collectedBy: Wallet
   reaction(request: ReactionFieldResolverRequest): ReactionTypes
   hasCollectedByMe: Boolean!
+  canComment(profileId: ProfileId): CanCommentResponse!
+  canMirror(profileId: ProfileId): CanMirrorResponse!
   mirrors(by: ProfileId): [InternalPublicationId!]!
 }
 
@@ -841,6 +870,8 @@ type Mirror {
   mirrorOf: MirrorablePublication!
   reaction(request: ReactionFieldResolverRequest): ReactionTypes
   hasCollectedByMe: Boolean!
+  canComment(profileId: ProfileId): CanCommentResponse!
+  canMirror(profileId: ProfileId): CanMirrorResponse!
 }
 
 union MirrorablePublication = Post | Comment
@@ -1323,7 +1354,7 @@ type PaginatedNotificationResult {
 }
 
 union Notification =
-  NewFollowerNotification
+    NewFollowerNotification
   | NewCollectNotification
   | NewCommentNotification
   | NewMirrorNotification
@@ -1697,7 +1728,7 @@ input ProfileOnChainIdentityRequest {
 }
 
 union ProxyActionStatusResultUnion =
-  ProxyActionStatusResult
+    ProxyActionStatusResult
   | ProxyActionError
   | ProxyActionQueued
 
@@ -2777,6 +2808,9 @@ input ReferenceModuleParams {
 
   # A unknown reference module
   unknownReferenceModule: UnknownReferenceModuleParams
+
+  # The degrees of seperation reference module
+  degreesOfSeparationReferenceModule: DegreesOfSeparationReferenceModuleParams
 }
 
 input UnknownReferenceModuleParams {
@@ -2784,6 +2818,17 @@ input UnknownReferenceModuleParams {
 
   # The encoded data to submit with the module
   data: BlockchainData!
+}
+
+input DegreesOfSeparationReferenceModuleParams {
+  # Applied to comments
+  commentsRestricted: Boolean!
+
+  # Applied to mirrors
+  mirrorsRestricted: Boolean!
+
+  # Degrees of separation
+  degreesOfSeparation: Int!
 }
 
 # The broadcast item
