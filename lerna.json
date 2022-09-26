@@ -6,9 +6,7 @@
   "version": "0.0.1-alpha.11",
   "command": {
     "version": {
-      "ignoreChanges": [
-        "*.md"
-      ],
+      "allowBranch": "main",
       "npmClient": "yarn",
       "message": "chore(release): publish"
     },

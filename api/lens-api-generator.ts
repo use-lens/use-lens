@@ -7,32 +7,34 @@ import {
   readdir,
 } from 'fs/promises';
 
-import { join } from 'path'
+import { join } from 'path';
 
-import multi from 'multistream'
+import multi from 'multistream';
 
 import axios from 'axios';
 
 import {
   LENS_API_DOCUMENTS_FILENAME,
-  LENS_API_SCHEMA_FILENAME
+  LENS_API_SCHEMA_FILENAME,
+  USE_LENS_META_FILENAME,
 } from '@use-lens/cli/lib/constants';
 
-const TESTNET_QUERIES = ['create-profile.graphql']
+const TESTNET = process.env.TESTNET === 'true'
+const TESTNET_QUERIES = ['create-profile.graphql'];
 
 const lensApiGenerator = async () => {
   // await downloadFile('https://api.lens.dev', `./api/${LENS_API_SCHEMA_FILENAME}`)
   await generateLensApiDocuments();
+  await updateUseLensJson();
 };
 
 const generateLensApiDocuments = async () => {
-  console.log('generating documents!')
+  console.log('generating documents!');
   // empty file
   writeFileSync(`./api/${LENS_API_DOCUMENTS_FILENAME}`, '');
 
-  // todo: separate testnet somehow
-  const fileNames = (await readdir('./api/documents')).filter((fileName) => !TESTNET_QUERIES.includes(fileName))
-  const fileStreams = fileNames.map(fileName => createReadStream(join('./api/documents', fileName)))
+  const fileNames = (await readdir('./api/documents')).filter((fileName) => TESTNET ? true : !TESTNET_QUERIES.includes(fileName));
+  const fileStreams = fileNames.map(fileName => createReadStream(join('./api/documents', fileName)));
   const writeStream = createWriteStream(join('./api', LENS_API_DOCUMENTS_FILENAME));
 
   return new Promise((resolve, reject) => {
@@ -40,7 +42,7 @@ const generateLensApiDocuments = async () => {
     // @ts-ignore
     new multi(fileStreams).pipe(writeStream);
 
-    let error
+    let error;
     writeStream.on('error', err => {
       error = err;
       writeStream.close();
@@ -52,7 +54,15 @@ const generateLensApiDocuments = async () => {
         resolve(true);
       }
     });
-  })
+  });
+};
+
+const updateUseLensJson = async () => {
+  writeFileSync(`./api/${USE_LENS_META_FILENAME}`, JSON.stringify({
+    version: 'latest',
+    type: 'semi-manual',
+    lastUpdate: new Date().toISOString()
+  }));
 };
 
 const downloadLensSchemaFile = async (downloadUrl: string, filePath: string) => {
