@@ -11,8 +11,8 @@
     "generate-api": "ts-node --transpileOnly ./api/lens-api-generator.ts",
     "build": "lerna run --scope '@use-lens/*' build",
     "publish:manual": "yarn run build && lerna publish --no-private",
-    "publish:latest": "lerna version patch --no-git-tag-version --no-push --no-private",
-    "publish:next": "lerna version prepatch --preid next --no-git-tag-version --no-push --no-private"
+    "version:latest": "lerna version patch --no-private",
+    "version:testnet": "lerna version prepatch --preid testnet --no-private"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.12.0",
