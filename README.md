@@ -1,30 +1,40 @@
-# WIP
-Approx. initial implemetation finish date: 30 September 2022
-
 # Use Lens
+documentation link to docs.lens
 
-List of libraries that hold generated Lens API in form of hooks
+## ⚠️ CAUTION
 
-Todo:
-- write script to update SCHEMA
-- add CLI for eject and add more flexibility: `use-lens react-apollo`
-  - by "name" load codegen and GQL documents(from github) and add .use-lens.json file to hold name and version for clarity
-- add --folder to specify CLI output
+## 🤓 How To Use
+Describe
+### Recommended use
+- Article
 
-- lens api and documents should be generated and committed and use-lens.json should be added with when it has been generated.
+## 💻 Contains
+- CLI
+- react-apollo
+- in plans: ...
 
-Chore Todo:
-- add Nx cache?
-- create CI/CD for manual/automatic build
+## 👨‍🏫 Examples
+-react-apollo
 
+## 🧑‍💻 Development
+How to contribute: TBD.
 
-## How to generate Documents
+### Request feature
+TBD
+### Report issue
+TBD
 
-- take latest API
-- load gitsubmodule `api-examples`
-- go through folder `src`
-- take all files except /abi
-- take out Private variable
-- append to lens-api.document
+## ❓️ FAQ
+- What happens if Lens would do breaking changes?
+
+### Emergency Eject
+- remove package
+- cli install
+- tsconfig paths
 
 ## LICENSE
+
+MIT. The full licence text could be found in the LICENSE file.
+
+> ...The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
