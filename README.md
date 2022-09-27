@@ -1,5 +1,7 @@
 # Use Lens
+WHat is this
 documentation link to docs.lens
+Graphql specific only
 
 ## ⚠️ CAUTION
 
@@ -20,19 +22,26 @@ Describe
 How to contribute: TBD.
 
 ### Request feature
-TBD
+TBD: possible from graphqlcodegen: angular, svelte
 ### Report issue
-TBD
+TBD:
+- check if reproduces with api.lens.dev
+- api-examples issues
+- check your version and update
 
 ## ❓️ FAQ
-- What happens if Lens would do breaking changes?
+- What happens if Lens would do breaking changes?  
+emergency eject {anchor link to same file}
+- How to create account?  
+need to use mumbai version available over @testnet
+
 
 ### Emergency Eject
 - remove package
 - cli install
 - tsconfig paths
 
-## LICENSE
+## 🔎 LICENSE
 
 MIT. The full licence text could be found in the LICENSE file.
 
