@@ -2,6 +2,12 @@
 A CLI tool to generate Lens API code for different frameworks and libs.
 
 ## ⚠️ CAUTION
+🌿 https://docs.lens.xyz/docs/introduction:
+> This API is beta and not production complete yet, which means that we could change schemas and endpoints at any time without warning or notice to you. When this API is production ready, we will remove this beta warning and will endeavor to ensure that there are no changes going forward unless a major change to the protocol itself is required.
+
+Lens API is not production complete, so as `@use-lens/*`. Please, keep this in mind when going to production.
+
+There is an explanation of how I see best use of `@use-lens/*` at this point in main [README.md](https://github.com/use-lens/use-lens#-usage)
 
 ## How To Use
 
