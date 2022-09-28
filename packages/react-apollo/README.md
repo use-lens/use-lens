@@ -1,5 +1,5 @@
 # @use-lens/react-apollo
-Package to use in React apps with the Apollo Client.
+Lens API generated code for Apollo Client in React.
 
 ## ⚠️ CAUTION
 🌿 https://docs.lens.xyz/docs/introduction:

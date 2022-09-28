@@ -4,7 +4,7 @@
   "description": "Lens API for Apollo Client in React",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "repository": "https://github.com/andriishupta/use-lens",
+  "repository": "https://github.com/use-lens/use-lens",
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
   "private": false,

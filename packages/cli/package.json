@@ -1,10 +1,10 @@
 {
   "name": "@use-lens/cli",
   "version": "0.0.6",
-  "description": "CLI for Lens API generation",
+  "description": "CLI for Lens API code generation",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "repository": "https://github.com/andriishupta/use-lens",
+  "repository": "https://github.com/use-lens/use-lens",
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -38,7 +38,8 @@
     "@graphql-codegen/typescript-operations": "^2.5.3",
     "@graphql-codegen/typescript-react-apollo": "^3.3.3",
     "chalk": "^5.0.1",
-    "commander": "^9.4.0"
+    "commander": "^9.4.0",
+    "graphql": "^16.6.0"
   },
   "gitHead": "9928367845fa4de18a4093be965af7433acb0ea2"
 }
