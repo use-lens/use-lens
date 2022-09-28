@@ -9,14 +9,15 @@ import {
 
 import { join } from 'path';
 
-import multi from 'multistream';
+import * as multi from 'multistream';
 
 import axios from 'axios';
 
+// @ts-ignore
 import {
   LENS_API_DOCUMENTS_FILENAME,
-  LENS_API_SCHEMA_FILENAME,
   USE_LENS_META_FILENAME,
+  // @ts-ignore
 } from '@use-lens/cli/lib/constants';
 
 const TESTNET = process.env.TESTNET === 'true'

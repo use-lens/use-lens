@@ -22,7 +22,7 @@
     "README.md"
   ],
   "scripts": {
-    "pregenerate": "cp ../../api/{lens-api.schema.graphql,lens-api.documents.graphql,.use-lens.json} .",
+    "pregenerate": "sh copy-api.sh",
     "generate": "graphql-codegen",
     "compile": "tsc --project tsconfig.json",
     "build": "yarn run generate && yarn run compile"
