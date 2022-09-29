@@ -11,9 +11,9 @@
     "pregenerate-api": "cp -R ./lens-api-examples/src/graphql/*.graphql ./api/documents",
     "generate-api": "ts-node --transpileOnly ./api/lens-api-generator.ts",
     "build": "lerna run --scope '@use-lens/*' build",
-    "version:testnet": "lerna version prepatch --preid testnet --no-private --yes",
+    "version:testnet": "lerna version prepatch --preid testnet --no-private",
     "version:mainnet": "lerna version patch --no-private --yes",
-    "publish:testnet": "lerna publish from-git --canary --preid testnet --dist-tag testnet --no-private",
+    "publish:testnet": "lerna publish from-git --dist-tag testnet --no-private --yes",
     "publish:mainnet": "lerna publish from-git --no-private --yes"
   },
   "devDependencies": {
