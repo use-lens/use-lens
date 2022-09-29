@@ -7,6 +7,7 @@
   "repository": "https://github.com/use-lens/use-lens",
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
+  "keywords": ["lens", "lens-protocol", "use-lens", "react", "apollo-client", "react-apollo", "cli"],
   "private": false,
   "bin": {
     "use-lens": "./lib/index.js"

@@ -1,4 +1,4 @@
-# @use-lens/cli
+# # WIP until v1.0.1: @use-lens/cli
 A CLI tool to generate Lens API code for different frameworks and libs.
 
 ## ⚠️ CAUTION
@@ -25,8 +25,9 @@ npx @use-lens/cli generate %PACKAGE%
 
 #### [react-apollo](https://github.com/use-lens/use-lens/tree/main/packages/react-apollo)
 
-`use-lens generate react-apollo`
-
+```
+use-lens generate react-apollo
+```
 
 
 ### Optional tsconfig's "paths"

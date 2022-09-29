@@ -1,4 +1,4 @@
-# @use-lens/react-apollo
+# # WIP until v1.0.1: @use-lens/react-apollo
 Lens API generated code for Apollo Client in React.
 
 ## ⚠️ CAUTION
@@ -17,11 +17,13 @@ There is an explanation of how I see best use of `@use-lens/*` at this point in 
 npm install --save @use-lens/react-apollo
 ```
 - Add Apollo: https://www.apollographql.com/docs/react/get-started
+
 ```typescript jsx
 // add example
 ```
 
 - Use generated code
+
 ```typescript jsx
 // add example
 ```
@@ -30,7 +32,6 @@ npm install --save @use-lens/react-apollo
 -react-apollo link
 
 ## 🔎 LICENSE
-
 MIT. The full licence text could be found in the LICENSE file.
 
 > ...The above copyright notice and this permission notice shall be included in all
