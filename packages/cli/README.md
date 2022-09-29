@@ -1,4 +1,4 @@
-# # WIP until v1.0.1: @use-lens/cli
+# WIP until v1.0.1: @use-lens/cli
 A CLI tool to generate Lens API code for different frameworks and libs.
 
 ## ⚠️ CAUTION

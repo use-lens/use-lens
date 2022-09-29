@@ -1,4 +1,4 @@
-# # WIP until v1.0.1: @use-lens/react-apollo
+# WIP until v1.0.1: @use-lens/react-apollo
 Lens API generated code for Apollo Client in React.
 
 ## ⚠️ CAUTION
