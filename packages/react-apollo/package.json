@@ -1,6 +1,6 @@
 {
   "name": "@use-lens/react-apollo",
-  "version": "0.0.8-testnet.0",
+  "version": "0.0.8",
   "description": "Lens API for Apollo Client in React",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

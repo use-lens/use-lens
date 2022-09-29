@@ -1,6 +1,6 @@
 {
   "name": "@use-lens/cli",
-  "version": "0.0.8-testnet.0",
+  "version": "0.0.8",
   "description": "CLI for Lens API code generation",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
