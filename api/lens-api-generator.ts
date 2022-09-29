@@ -13,14 +13,12 @@ import * as multi from 'multistream';
 
 import axios from 'axios';
 
-// @ts-ignore
-import {
-  LENS_API_DOCUMENTS_FILENAME,
-  USE_LENS_META_FILENAME,
-  // @ts-ignore
-} from '@use-lens/cli/lib/constants';
+// duplicate
+const LENS_API_DOCUMENTS_FILENAME = 'lens-api.documents.graphql';
+const LENS_API_SCHEMA_FILENAME = 'lens-api.schema.graphql';
+const USE_LENS_META_FILENAME = '.use-lens.json';
 
-const TESTNET = process.env.TESTNET === 'true'
+const TESTNET = process.env.TESTNET === 'true';
 const TESTNET_QUERIES = ['create-profile.graphql'];
 
 const lensApiGenerator = async () => {
