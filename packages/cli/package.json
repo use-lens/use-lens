@@ -1,13 +1,21 @@
 {
   "name": "@use-lens/cli",
-  "version": "0.0.7",
+  "version": "0.0.8-testnet.0",
   "description": "CLI for Lens API code generation",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": "https://github.com/use-lens/use-lens",
   "author": "Andrii Shupta <andrii.shupta@gmail.com>",
   "license": "MIT",
-  "keywords": ["lens", "lens-protocol", "use-lens", "react", "apollo-client", "react-apollo", "cli"],
+  "keywords": [
+    "lens",
+    "lens-protocol",
+    "use-lens",
+    "react",
+    "apollo-client",
+    "react-apollo",
+    "cli"
+  ],
   "private": false,
   "bin": {
     "use-lens": "./lib/index.js"
