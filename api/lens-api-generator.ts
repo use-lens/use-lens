@@ -9,7 +9,8 @@ import {
 
 import { join } from 'path';
 
-import * as multi from 'multistream';
+// @ts-ignore
+import multi from 'multistream';
 
 import axios from 'axios';
 
