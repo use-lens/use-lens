@@ -39,8 +39,6 @@ const generateLensApiDocuments = async () => {
   const writeStream = createWriteStream(join('./api', LENS_API_DOCUMENTS_FILENAME));
 
   return new Promise((resolve, reject) => {
-    // type mismatch
-    // @ts-ignore
     new multi(fileStreams).pipe(writeStream);
 
     let error;
