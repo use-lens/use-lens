@@ -9,7 +9,7 @@ Lens API is not production complete, so as `@use-lens/*`. Please, keep this in m
 
 There is an explanation of how I see best use of `@use-lens/*` at this point in main [README.md](https://github.com/use-lens/use-lens#-usage)
 
-## How To Use
+## 🤓 Usage
 
 ```bash
 npm install --save-dev @use-lens/cli
@@ -38,11 +38,9 @@ Add `@use-lens/%PACKAGE%` or any name you want(example, `@lens-api`) to **tsconf
 
 ```json
 {
-  //  ...
   "paths": [
     {"./src/lens-api/**": "@use-lens/react-apollo"}
   ]
-  //  ...
 }
 ```
 
@@ -55,13 +53,10 @@ Table of flags
 ### Recommended use
 - Article and why is that again
 
-## How it works
-it would clone schema and documents and would run graphql-codegen
+## 👨‍🏫 Example
+- link to example: TOdo
 
-## FAQ
-- why this needed if we can install packages
-
-## LICENSE
+## 🔎 LICENSE
 
 MIT. The full licence text could be found in the LICENSE file.
 
