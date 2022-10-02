@@ -38,8 +38,12 @@ export const LensData = () => {
       </h5>
       <div className={dataClassName}>{currentProfile.name}</div>
       <div className={dataClassName}>{currentProfile.bio}</div>
-      <img width={100} height={100}
-           src={currentProfile.picture?.__typename === 'MediaSet' ? currentProfile.picture?.original.url : (currentProfile.picture as NftImage)?.uri}/>
+      <img
+        width={100}
+        height={100}
+        alt={currentProfile.handle}
+        src={currentProfile.picture?.__typename === 'MediaSet' ? currentProfile.picture?.original.url : (currentProfile.picture as NftImage)?.uri}
+      />
     </Card>
   </>;
 };
