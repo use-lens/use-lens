@@ -16,14 +16,14 @@ import App from './App';
 
 import { getDefaultProvider } from 'ethers';
 
-
-const getApolloClient = (network?: string) => {
-  const uri = network === 'MAINNET' ? 'https://api.lens.dev' : 'https://api-mumbai.lens.dev';
-  return new ApolloClient({
-    uri,
-    cache: new InMemoryCache(),
-  });
-};
+const mainnetApolloClient = new ApolloClient({
+  uri: 'https://api.lens.dev',
+  cache: new InMemoryCache()
+});
+const testnetApolloClient = new ApolloClient({
+  uri: 'https://api-mumbai.lens.dev',
+  cache: new InMemoryCache()
+});
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -43,19 +43,26 @@ export const AppContext = createContext<{
 });
 
 const AppWrapper = () => {
-  const [network, setNetwork] = useState('MAINNET')
-  const [session, setSession] = useState({ accessToken: undefined, refreshToken: undefined })
+  const [network, setNetwork] = useState('MAINNET');
+  const [session, setSession] = useState({ accessToken: undefined, refreshToken: undefined });
 
   return <>
+    <a className="absolute right-0 top-0 mr-3 mt-3" href={process.env.REACT_APP_GITHUB_LINK} target="_blank" rel="noopener noreferrer">
+      <img width={36} height={36} src="/github-icon.png" alt="github icon"/>
+    </a>
     <WagmiConfig client={wagmiClient}>
       <AppContext.Provider value={{ network, setNetwork, session, setSession }}>
         <NetworkPicker/>
         <AppContext.Consumer>
           {
             ({ network }) =>
-              <ApolloProvider client={getApolloClient(network)}>
-                <App/>
-              </ApolloProvider>
+              network === 'MAINNET'
+                ? <ApolloProvider client={mainnetApolloClient}>
+                  <App/>
+                </ApolloProvider>
+                : <ApolloProvider client={testnetApolloClient}>
+                  <App/>
+                </ApolloProvider>
           }
         </AppContext.Consumer>
       </AppContext.Provider>
@@ -66,7 +73,7 @@ const AppWrapper = () => {
 const NetworkPicker = () => {
   const { network, setNetwork } = useContext(AppContext);
 
-  const handleNetworkChange = () => setNetwork(network === 'MAINNET' ? 'TESTNET' : 'MAINNET')
+  const handleNetworkChange = () => setNetwork(network === 'MAINNET' ? 'TESTNET' : 'MAINNET');
 
   return <div className="flex justify-center items-center">
     <span className="mr-3 text-sm font-medium text-gray-900 dark:text-gray-300">Testnet</span>
