@@ -527,17 +527,6 @@ fragment ReferenceModuleFields on ReferenceModule {
     degreesOfSeparation
   }
 }
-mutation createProfile($request: CreateProfileRequest!) {
-  createProfile(request: $request) {
-    ... on RelayerResult {
-      txHash
-    }
-    ... on RelayError {
-      reason
-    }
-    __typename
-  }
-}
 mutation CreateSetDispatcherTypedData($request: SetDispatcherRequest!) {
   createSetDispatcherTypedData(request: $request) {
     id
