@@ -1,5 +1,5 @@
 # @use-lens/cli
-A CLI tool to generate Lens API code for different frameworks and libs.
+A CLI tool to generate Lens API code for different frameworks.
 
 ## ⚠️ CAUTION
 🌿 https://docs.lens.xyz/docs/introduction:
@@ -58,8 +58,6 @@ If you want **to have more control** - use `@use-lens/cli` to generate code loca
 
 You would be able to do more with `codegen.yml`.  
 Follow official docs of [graphql-code-generator](https://github.com/dotansimha/graphql-code-generator) to understand how it works.
-
-Find a detailed explanation in the article: [How to Generate Lens API with GraphQL Code Generator](https://blog.andriishupta.dev)
 
 ## 👨‍🏫 Example
 https://github.com/use-lens/use-lens/tree/main/examples/cli-testnet

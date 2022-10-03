@@ -1,7 +1,7 @@
 # 🌱 Use Lens
 `use-lens/use-lens` is a monorepo that contains packages and CLI with generated GraphQL code for easier Lens API use.
 
-These packages don't change Lens API but simplify usage by providing generated hooks, services, components, etc., for different languages and frameworks.
+These packages don't change Lens API but simplify usage by providing generated hooks, services, components, etc., for different frameworks.
 
 Find Lens API documentation by the link:
 
@@ -17,7 +17,7 @@ Lens API is not production complete, and so is `@use-lens/*`. Please, keep this 
 
 Also, I would briefly explain how I see the best use of `@use-lens/*` at this point.
 
-## 🤓 usage
+## 🤓 Usage
 _You should have a regular Typescript project before running it, so everything goes smoothly._
 
 Package:
@@ -44,7 +44,7 @@ use-lens generate %PACKAGE%
 - go to 🌿 https://docs.lens.xyz to check what query or mutation you need to use
 - import from `@use-lens/*` what you need
   - document(query or mutation)
-  - request /response types
+  - request / response types
   - hooks for React, services for Angular, etc.
 
 Example:
@@ -69,12 +69,13 @@ Soon:
 - `@use-lens/urlq`
 
 ## 👨‍🏫 Examples
+- [react-apollo](https://github.com/use-lens/use-lens/tree/main/examples/cli-testnet)
 - [react-apollo](https://github.com/use-lens/use-lens/tree/main/examples/react-apollo)
 
 ## ❓️ FAQ
 - What happens if Lens breaks changes and I use `@use-lens/*`?  
   I would try to fix it ASAP, but try to do "Emergency eject"(described below)
-- Will you update `@use-lens/*` when Lens API is updated?
+- Will you update `@use-lens/*` when Lens API is updated?  
   Yes. But currently, Lens API doesn't have a "release schedule", so I would monitor it manually.
 
 ### "Emergency Eject"
@@ -83,7 +84,7 @@ If something happens with some package and you need to have more control over Le
 - run CLI install with the same package you had
 - use that package instead
 
-To make this smooth, you could try to update tsconfig.json with "paths":
+To make this smooth, you could try to update **tsconfig.json** with "paths":
 
 https://www.typescriptlang.org/docs/handbook/module-resolution.html
 

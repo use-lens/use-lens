@@ -26,14 +26,15 @@ import {
   useGlobalProtocolStatsQuery
 } from '@use-lens/react-apollo';
 
-// .. Component's code
+const SomeComponent = () => {
+  // component's code
+  const [loadChallenge] = useChallengeLazyQuery();
+  const [authenticate] = useAuthenticateMutation();
 
-const [loadChallenge] = useChallengeLazyQuery();
-const [authenticate] = useAuthenticateMutation();
-
-const { data, error, loading } = useGlobalProtocolStatsQuery();
-
-// Render "data"
+  const { data, error, loading } = useGlobalProtocolStatsQuery();
+  
+  return // render data from Lens API.
+}
 ```
 
 ### Workflow
