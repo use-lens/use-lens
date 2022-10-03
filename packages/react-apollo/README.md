@@ -12,6 +12,7 @@ In case of breaking changes, please, visit main [README.md's FAQ](https://github
 There is an explanation of how I see the best use of `@use-lens/*` at this point in the main [README.md](https://github.com/use-lens/use-lens#-usage)
 
 ## 🤓 Usage
+
 - Install package
 ```
 npm install --save @use-lens/react-apollo
