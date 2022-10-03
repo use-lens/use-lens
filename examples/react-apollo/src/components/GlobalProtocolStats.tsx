@@ -19,11 +19,11 @@ export const GlobalProtocolStats: FC<{ data: GlobalProtocolStatsType }> = ({ dat
     totalRevenue,
   } = data
 
-  const statClassName = 'mb-3 font-normal text-gray-700 dark:text-gray-400'
+  const statClassName = 'mb-3 font-normal text-gray-700'
 
   return (
     <Card className="container">
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
         Global Protocol Stats
       </h5>
       <div className={statClassName}>Total Burnt Profiles: {totalBurntProfiles}</div>

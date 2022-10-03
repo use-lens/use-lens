@@ -1,7 +1,7 @@
 schema: lens-api.schema.graphql
 documents: lens-api.documents.graphql
 generates:
-  ./src/lens-api/index.ts:
+  ./src/use-lens/react-apollo.ts:
     plugins:
       - typescript
       - typescript-operations

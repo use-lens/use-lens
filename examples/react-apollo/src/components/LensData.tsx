@@ -26,7 +26,7 @@ export const LensData = () => {
   const currentProfile = defaultProfile || profilesData?.profiles?.items[ 0 ];
 
 
-  const dataClassName = 'mb-3 font-normal text-gray-700 dark:text-gray-400';
+  const dataClassName = 'mb-3 font-normal text-gray-700';
 
   const handleCreatePost = () => {
     alert('WIP. Would create post... Coming soon.')
@@ -38,7 +38,7 @@ export const LensData = () => {
 
   return <>
     <Card className="container mt-5">
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
         {currentProfile.handle}
       </h5>
       <div className={dataClassName}>{currentProfile.name}</div>
@@ -52,7 +52,7 @@ export const LensData = () => {
     </Card>
 
     <Card className="container mt-5">
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
         WIP: Create post:
       </h5>
       <div className="flex">
