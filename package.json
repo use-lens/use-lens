@@ -7,6 +7,7 @@
     "examples/*"
   ],
   "scripts": {
+    "examples:start:cli-testnet": "lerna run start --scope cli-testnet",
     "examples:start:react-apollo": "lerna run start --scope react-apollo",
     "pregenerate-api": "cp -R ./lens-api-examples/src/graphql/*.graphql ./api/documents",
     "generate-api": "ts-node --transpileOnly ./api/lens-api-generator.ts",

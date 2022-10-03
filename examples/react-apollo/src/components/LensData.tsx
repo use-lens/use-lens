@@ -29,7 +29,7 @@ export const LensData = () => {
   const dataClassName = 'mb-3 font-normal text-gray-700 dark:text-gray-400';
 
   const handleCreatePost = () => {
-
+    alert('WIP. Would create post... Coming soon.')
   };
 
   if (error) {
@@ -53,12 +53,18 @@ export const LensData = () => {
 
     <Card className="container mt-5">
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        Create post:
+        WIP: Create post:
       </h5>
       <div className="flex">
-        <textarea className="border " value={textareaValue} onChange={(e) => setTextareaValue(e.target.value)}></textarea>
+        <textarea
+          disabled={true}
+          className="border"
+          value={textareaValue}
+          onChange={(e) => setTextareaValue(e.target.value)}
+        />
         <button
-          className="m-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          disabled={true}
+          className="m-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
           onClick={handleCreatePost}
         >
           Post! 🌿

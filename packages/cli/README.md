@@ -32,29 +32,35 @@ use-lens generate react-apollo
 
 ### Optional tsconfig's "paths"
 
-Add `@use-lens/%PACKAGE%` or any name you want(example, `@lens-api`) to **tsconfig.json**.
+Add `@use-lens/%PACKAGE%` or any name you want to **tsconfig.json**.
 
 `@use-lens/%PACKAGE%` would let you switch to a _%PACKAGE%_ easy, just by removing "paths". 
 
-```json
+```json lines
 {
-  "paths": [
-    {"./src/lens-api/**": "@use-lens/react-apollo"}
-  ]
+  "baseUrl": "./",
+  "paths": {
+    "@use-lens/%PACKAGE%": ["./src/use-lens/%PACKAGE%.ts"]
+  }
 }
 ```
 
-### CLI Flags
-Table of flags
-
-- --output-path - by default `./src/lens-api`
-- --dry-run - by default `false`
+### WIP: CLI Flags
+- TODO: --output-path - by default `./src/use-lens/%PACKAGE%.ts`
+- TODO: --dry-run - by default `false`
 
 ### Recommended use
-- Article and why is that again
+If you want to **play with Lens API** - don't hesitate and install some of the `@use-lens/*` packages - it will give you all you need to start.
+
+If you want to **have more control** - use `@use-lens/cli` to generate code locally. This would copy essential files that a package contains and would run `graphql-codegen`.
+
+You would be able to do more with `codegen.yml`.  
+Follow official docs of [graphql-code-generator](https://github.com/dotansimha/graphql-code-generator) to understand how it works.
+
+Find detailed explanation in the article: [How to Generate Lens API with GraphQL Code Generator](https://blog.andriishupta.dev)
 
 ## 👨‍🏫 Example
-- link to example: TOdo
+https://github.com/use-lens/use-lens/tree/main/examples/cli-testnet
 
 ## 🔎 LICENSE
 

@@ -88,7 +88,12 @@ To make this smoothly you could try to update tsconfig with "paths":
 https://www.typescriptlang.org/docs/handbook/module-resolution.html
 
 ```json lines
-
+{
+  "baseUrl": "./",
+  "paths": {
+    "@use-lens/%PACKAGE%": ["./src/use-lens/%PACKAGE%.ts"]
+  }
+}
 ```
 
 ## 🧑‍💻 Contribution

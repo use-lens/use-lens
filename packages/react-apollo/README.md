@@ -17,15 +17,23 @@ There is an explanation of how I see best use of `@use-lens/*` at this point in 
 npm install --save @use-lens/react-apollo
 ```
 - Add Apollo: https://www.apollographql.com/docs/react/get-started
-
-```typescript jsx
-// add example
-```
-
 - Use generated code
 
 ```typescript jsx
-// add example
+import {
+  useAuthenticateMutation,
+  useChallengeLazyQuery,
+  useGlobalProtocolStatsQuery
+} from '@use-lens/react-apollo';
+
+// .. Component's code
+
+const [loadChallenge] = useChallengeLazyQuery();
+const [authenticate] = useAuthenticateMutation();
+
+const { data, error, loading } = useGlobalProtocolStatsQuery();
+
+// Render "data"
 ```
 
 ### Workflow
@@ -40,7 +48,7 @@ Detailed information of what is produced could be found here:
 https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript-react-apollo
 
 ## 👨‍🏫 Example
-- react-apollo link
+https://github.com/use-lens/use-lens/tree/main/examples/react-apollo
 
 ## 🔎 LICENSE
 MIT. The full licence text could be found in the LICENSE file.
