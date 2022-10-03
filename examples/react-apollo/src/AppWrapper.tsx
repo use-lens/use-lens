@@ -16,12 +16,8 @@ import App from './App';
 
 import { getDefaultProvider } from 'ethers';
 
-const mainnetApolloClient = new ApolloClient({
-  uri: 'https://api.lens.dev',
-  cache: new InMemoryCache()
-});
-const testnetApolloClient = new ApolloClient({
-  uri: 'https://api-mumbai.lens.dev',
+const getApolloClient = (network: string) => new ApolloClient({
+  uri: network === 'MAINNET' ? 'https://api.lens.dev' : 'https://api-mumbai.lens.dev',
   cache: new InMemoryCache()
 });
 
@@ -43,8 +39,14 @@ export const AppContext = createContext<{
 });
 
 const AppWrapper = () => {
-  const [network, setNetwork] = useState('MAINNET');
+  const query = new URLSearchParams(window.location.search);
+  const initialNetwork = query.get('network') === 'TESTNET' ? 'TESTNET' : 'MAINNET';
+  const [network] = useState(initialNetwork);
   const [session, setSession] = useState({ accessToken: undefined, refreshToken: undefined });
+
+  const setNetwork = (network: string) => window.location.href = `${window.location.origin}/?network=${network}`;
+
+  const apolloClient = getApolloClient(network);
 
   return <>
     <a className="absolute right-0 top-0 mr-3 mt-3" href={process.env.REACT_APP_GITHUB_LINK} target="_blank" rel="noopener noreferrer">
@@ -53,18 +55,9 @@ const AppWrapper = () => {
     <WagmiConfig client={wagmiClient}>
       <AppContext.Provider value={{ network, setNetwork, session, setSession }}>
         <NetworkPicker/>
-        <AppContext.Consumer>
-          {
-            ({ network }) =>
-              network === 'MAINNET'
-                ? <ApolloProvider client={mainnetApolloClient}>
-                  <App/>
-                </ApolloProvider>
-                : <ApolloProvider client={testnetApolloClient}>
-                  <App/>
-                </ApolloProvider>
-          }
-        </AppContext.Consumer>
+        <ApolloProvider client={apolloClient}>
+          <App/>
+        </ApolloProvider>
       </AppContext.Provider>
     </WagmiConfig>
   </>;
@@ -75,7 +68,7 @@ const NetworkPicker = () => {
 
   const handleNetworkChange = () => setNetwork(network === 'MAINNET' ? 'TESTNET' : 'MAINNET');
 
-  return <div className="flex justify-center items-center">
+  return <div className="flex justify-center items-center mb-3">
     <span className="mr-3 text-sm font-medium text-gray-900 dark:text-gray-300">Testnet</span>
     <label htmlFor="network" className="inline-flex relative items-center cursor-pointer">
       <input type="checkbox" onChange={handleNetworkChange} value={network} id="network" checked={network === 'MAINNET'}

@@ -28,8 +28,19 @@ npm install --save @use-lens/react-apollo
 // add example
 ```
 
+### Workflow
+- decide what you want to implement
+- go to 🌿 https://docs.lens.xyz to check what query or mutation you need to use
+- import from `@use-lens/*` what you need
+  - document(query or mutation)
+  - request /response types
+
+Detailed information of what is produced could be found here:
+
+https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript-react-apollo
+
 ## 👨‍🏫 Example
--react-apollo link
+- react-apollo link
 
 ## 🔎 LICENSE
 MIT. The full licence text could be found in the LICENSE file.

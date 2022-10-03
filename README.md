@@ -1,9 +1,11 @@
-# Use Lens
-This is a monorepo that contains packages and CLI to generate GraphQL code for easier Lens API use.
+# 🌱 Use Lens
+This is a monorepo that contains packages and CLI with generated GraphQL code for easier Lens API use.
 
 These packages don't change in any way Lens API, but simplifies usage by providing generated hooks, services, components, etc. for different languages and frameworks.
 
-Find Lens API documentation by the link: 🌿 https://docs.lens.xyz.
+Find Lens API documentation by the link:
+
+🌿 https://docs.lens.xyz.
 
 Generation is made with awesome package [graphql-code-generator](https://github.com/dotansimha/graphql-code-generator).
 
@@ -16,7 +18,7 @@ Lens API is not production complete, and so is `@use-lens/*`. Please, keep this 
 Also, I would leave small explanation of how I see best use of `@use-lens/*` at this point.
 
 ## 🤓 Usage
-_You should to have a regular Typescript project before running it, so everything would go smoothly._
+_You should have a regular Typescript project before running it, so everything would go smoothly._
 
 Package:
 ```
@@ -37,6 +39,17 @@ npm install --save-dev @use-lens/cli
 use-lens generate %PACKAGE%
 ```
 
+### Workflow
+- decide what you want to implement
+- go to 🌿 https://docs.lens.xyz to check what query or mutation you need to use
+- import from `@use-lens/*` what you need
+  - document(query or mutation)
+  - request /response types
+  - hooks for React, services for Angular, etc.
+
+Example:
+![import-example-react-apollo](import-example-react-apollo.png)
+
 ### Recommended use
 If you want to **play with Lens API** - don't hesitate and install some of the `@use-lens/*` packages - it will give you all you need to start.
 
@@ -56,20 +69,27 @@ in the near future:
 - `@use-lens/urlq`
 
 ## 👨‍🏫 Examples
-- react-apollo
+- [react-apollo](https://github.com/use-lens/use-lens/tree/main/examples/react-apollo)
 
 ## ❓️ FAQ
-- What happens if Lens would do breaking changes?  
-emergency eject {anchor link to same file}
-- How to create account?  
-need to use mumbai version available over @testnet
+- What happens if Lens would do breaking changes and I use `@use-lens/*`?  
+I would try to fix it ASAP, but try to do "Emergency eject"(described below)
 - Will you update `@use-lens/*` when Lens API would be updated?
 Yes. But currently Lens API doesn't have "release schedule", so I would monitor it in manual way.
 
-### Emergency "Eject"
-- remove package
-- cli install
-- tsconfig paths
+### "Emergency Eject"
+If something happens with some package and you need to have more control over Lens API Documents do:
+- Remove `@use-lens/*` package
+- run CLI install with same package you had
+- use that package instead
+
+To make this smoothly you could try to update tsconfig with "paths":
+
+https://www.typescriptlang.org/docs/handbook/module-resolution.html
+
+```json lines
+
+```
 
 ## 🧑‍💻 Contribution
 Contribution would be closed until there would a need.
