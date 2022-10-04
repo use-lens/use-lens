@@ -20,7 +20,7 @@ Also, I would briefly explain how I see the best use of `@use-lens/*` at this po
 ## 🤓 Usage
 
 > All packages and CLI have 2 versions/dist-tags: `@testnet` and `@latest`.
-> Install `@testnet` version only if you need some functionality from it(currently, it is only `createProfile`)
+> Install `@testnet` version only if you need some functionality from it(currently, it is only `createProfile`).
 
 _You should have a regular Typescript project before running it, so everything goes smoothly._
 

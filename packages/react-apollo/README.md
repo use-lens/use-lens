@@ -19,6 +19,8 @@ In case of breaking changes, please, visit main [README.md's FAQ](https://github
 There is an explanation of how I see the best use of `@use-lens/*` at this point in the main [README.md](https://github.com/use-lens/use-lens#-usage)
 
 ## 🤓 Usage
+> All packages and CLI have 2 versions/dist-tags: `@testnet` and `@latest`.
+> Install `@testnet` version only if you need some functionality from it(currently, it is only `createProfile`).
 
 - Install package
 ```
@@ -48,7 +50,7 @@ const SomeComponent = () => {
 ### Workflow
 - decide what you want to implement
 - go to 🌿 https://docs.lens.xyz to check what query or mutation you need to use
-- import from `@use-lens/*` what you need
+- import from `@use-lens/react-apollo` what you need
   - document(query or mutation)
   - request /response types
 

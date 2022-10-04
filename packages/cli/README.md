@@ -17,6 +17,9 @@ Lens API is not production complete, and so is `@use-lens/*`. Please, keep this 
 There is an explanation of how I see the best use of `@use-lens/*` at this point in the main [README.md](https://github.com/use-lens/use-lens#-usage)
 
 ## 🤓 Usage
+> All packages and CLI have 2 versions/dist-tags: `@testnet` and `@latest`.
+> Install `@testnet` version only if you need some functionality from it(currently, it is only `createProfile`).
+
 ```bash
 npm install --save-dev @use-lens/cli
 use-lens generate %PACKAGE%
