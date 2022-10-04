@@ -1,6 +1,13 @@
 # @use-lens/cli
 A CLI tool to generate Lens API code for different frameworks.
 
+<a href="https://www.npmjs.com/package/@use-lens/cli" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/npm/v/@use-lens/cli/latest?color=limegreen&label=%40use-lens%2Fcli&logo=Use%20Lens%20CLI%20on%20npm" alt="Use Lens CLI on npm"/>
+</a>
+<a href="https://www.npmjs.com/package/@use-lens/cli" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/npm/v/@use-lens/cli/testnet?color=yellow&label=%40use-lens%2Fcli&logo=Use%20Lens%20CLI%20testnet%20on%20npm" alt="Use Lens CLI testnet on npm"/>
+</a>
+
 ## ⚠️ CAUTION
 🌿 https://docs.lens.xyz/docs/introduction:
 > This API is beta and not production complete yet, which means that we could change schemas and endpoints at any time without warning or notice to you. When this API is production ready, we will remove this beta warning and will endeavor to ensure that there are no changes going forward unless a major change to the protocol itself is required.

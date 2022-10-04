@@ -1,6 +1,13 @@
 # @use-lens/react-apollo
 Lens API generated code for Apollo Client in React.
 
+<a href="https://www.npmjs.com/package/@use-lens/react-apollo" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/npm/v/@use-lens/react-apollo/latest?color=limegreen&label=%40use-lens%2Freact-apollo&logo=Use%20Lens%20React%20Apollo%20on%20npm" alt="Use Lens React Apollo on npm"/>
+</a>
+<a href="https://www.npmjs.com/package/@use-lens/react-apollo" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/npm/v/@use-lens/react-apollo/testnet?color=yellow&label=%40use-lens%2Freact-apollo&logo=Use%20Lens%20React%20Apollo%20testnet%20on%20npm" alt="Use Lens React Apollo testnet on npm"/>
+</a>
+
 ## ⚠️ CAUTION
 🌿 https://docs.lens.xyz/docs/introduction:
 > This API is beta and not production complete yet, which means that we could change schemas and endpoints at any time without warning or notice to you. When this API is production ready, we will remove this beta warning and will endeavor to ensure that there are no changes going forward unless a major change to the protocol itself is required.
