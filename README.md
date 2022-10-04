@@ -17,6 +17,14 @@ Lens API is not production complete, and so is `@use-lens/*`. Please, keep this 
 
 Also, I would briefly explain how I see the best use of `@use-lens/*` at this point.
 
+## 💻 Contains
+- [@use-lens/cli](https://github.com/use-lens/use-lens/tree/main/packages/cli)
+- [@use-lens/react-apollo](https://github.com/use-lens/use-lens/tree/main/packages/react-apollo)
+
+Soon:
+- `@use-lens/apollo-next`
+- `@use-lens/urlq`
+
 ## 🤓 Usage
 
 > All packages and CLI have 2 versions/dist-tags: `@testnet` and `@latest`.
@@ -43,7 +51,7 @@ npm install --save-dev @use-lens/cli
 use-lens generate %PACKAGE%
 ```
 
-Example of `@testnet`: `npm install @use-lens/cli@testnet`
+Example of `@testnet`: `npm install --save-dev @use-lens/cli@testnet`
 
 ### Workflow
 - decide what you want to implement
@@ -66,16 +74,8 @@ Follow official docs of [graphql-code-generator](https://github.com/dotansimha/g
 
 Find a detailed explanation in the article: [How to Generate Lens API with GraphQL Code Generator](https://blog.andriishupta.dev)
 
-## 💻 Contains
-- [@use-lens/cli](https://github.com/use-lens/use-lens/tree/main/packages/cli)
-- [@use-lens/react-apollo](https://github.com/use-lens/use-lens/tree/main/packages/react-apollo)
-
-Soon:
-- `@use-lens/apollo-next`
-- `@use-lens/urlq`
-
 ## 👨‍🏫 Examples
-- [react-apollo](https://github.com/use-lens/use-lens/tree/main/examples/cli-testnet)
+- [cli-testnet](https://github.com/use-lens/use-lens/tree/main/examples/cli-testnet)
 - [react-apollo](https://github.com/use-lens/use-lens/tree/main/examples/react-apollo)
 
 ## ❓️ FAQ
@@ -87,8 +87,9 @@ Soon:
 ### "Emergency Eject"
 If something happens with some package and you need to have more control over Lens API Documents, do:
 - Remove `@use-lens/*` package
-- run CLI install with the same package you had
-- use that package instead
+- Run `npx @use-lens/cli generage %PACKAGE%` with the same package you had
+- Use generated code instead of the package
+- Fix errors in Schema, Queries, Mutations manually as a tmp solution.
 
 To make this smooth, you could try to update **tsconfig.json** with "paths":
 
@@ -105,11 +106,28 @@ https://www.typescriptlang.org/docs/handbook/module-resolution.html
 }
 ```
 
+so you won't need to update import paths to generated code
+
+Example without **tsconfig.json** modification:
+```typescript jsx
+import { SomethingFromLensAPI } from '../src/use-lens/%PACKAGE%.ts'
+```
+
+Example with this simple change in **tsconfig.json**:
+```typescript jsx
+import { StaysSame } from '@use-lens/%PACKAGE%.ts'
+```
+
 ## 🧑‍💻 Contribution
 The contribution would be closed until there is a need.
 
+### Request improvement to Lens API Documents
+Request improvement to Lens API Documents if you see some mismatch or room for improvement. The best way would be to request Query or Mutation changes in the api-examples repo.
+Check the "🤝 Lens API Documents" section below for more information.
+
 ### Request a feature
 Create an issue of what package you want to see. Possible list would fully rely on [graphql-codegen-plugins](https://the-guild.dev/graphql/codegen/plugins).
+
 ### Report an issue
 Before reporting an issue, please check:
 - if it is reproducible on https://api.lens.dev
@@ -117,6 +135,10 @@ Before reporting an issue, please check:
 - if your version is up-to-date.
 
 I cannot fix the issue in `@use-lens` if this is true.
+
+## 🤝 Lens API Documents
+The complete set of Lens API Documents has been taken from [api-examples](https://github.com/lens-protocol/api-examples), a repo of 🌿 Lens Protocol that shows how to use Lens API.
+The same (or similar) queries are given as examples in Lens API docs.
 
 ## 🔎 LICENSE
 
