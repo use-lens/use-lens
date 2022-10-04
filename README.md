@@ -113,12 +113,12 @@ so you won't need to update import paths to generated code
 
 Example without **tsconfig.json** modification:
 ```typescript jsx
-import { SomethingFromLensAPI } from '../src/use-lens/%PACKAGE%.ts'
+import { SomethingFromLensAPI } from '../src/use-lens/%PACKAGE%'
 ```
 
 Example with this simple change in **tsconfig.json**:
 ```typescript jsx
-import { StaysSame } from '@use-lens/%PACKAGE%.ts'
+import { StaysSame } from '@use-lens/%PACKAGE%'
 ```
 
 ## 🧑‍💻 Contribution
@@ -137,7 +137,7 @@ Before reporting an issue, please check:
 - if it is a https://github.com/lens-protocol/api-examples issue wrong Query or Mutation
 - if your version is up-to-date.
 
-I cannot fix the issue in `@use-lens` if this is true.
+If errors come from outside, I cannot fix the issue in `@use-lens`.
 
 ## 🤝 Lens API Documents
 The complete set of Lens API Documents has been taken from [api-examples](https://github.com/lens-protocol/api-examples), a repo of 🌿 Lens Protocol that shows how to use Lens API.
