@@ -15,6 +15,8 @@ Generation is made with awesome package [graphql-code-generator](https://github.
 
 Lens API is not production complete, and so is `@use-lens/*`. Please, keep this in mind when going to the production.
 
+The update process of `@use-lens/*` is **manual** because Lens API is currently private, in beta, and doesn't have release schedules, etc.
+
 Also, I would briefly explain how I see the best use of `@use-lens/*` at this point.
 
 ## 💻 Contains
