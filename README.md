@@ -67,6 +67,7 @@ Example of `@testnet`: `npm install --save-dev @use-lens/cli@testnet`
   - hooks for React, services for Angular, etc.
 
 Example:
+
 ![import-example-react-apollo](import-example-react-apollo.png)
 
 ### Recommended use
