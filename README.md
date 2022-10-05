@@ -29,7 +29,7 @@ Soon:
 
 ## 🤓 Usage
 
-> Works on LTS: https://nodejs.org/en
+> Works on **LTS**: https://nodejs.org/en
 
 > All packages and CLI have 2 versions/dist-tags: `@testnet` and `@latest`.
 > Install `@testnet` version only if you need some functionality from it(currently, it is only `createProfile`).
