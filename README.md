@@ -25,7 +25,7 @@ Also, I would briefly explain how I see the best use of `@use-lens/*` at this po
 
 Soon:
 - `@use-lens/apollo-next`
-- `@use-lens/urlq`
+- `@use-lens/urql`
 
 ## 🤓 Usage
 

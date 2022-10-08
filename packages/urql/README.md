@@ -1,11 +1,11 @@
-# @use-lens/react-apollo
-Lens API generated code for Apollo Client in React.
+# @use-lens/urql
+Lens API generated code for urql.
 
-<a href="https://www.npmjs.com/package/@use-lens/react-apollo" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/npm/v/@use-lens/react-apollo/latest?color=limegreen&label=%40use-lens%2Freact-apollo&logo=Use%20Lens%20React%20Apollo%20on%20npm" alt="Use Lens React Apollo on npm"/>
+<a href="https://www.npmjs.com/package/@use-lens/urql" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/npm/v/@use-lens/urql/latest?color=limegreen&label=%40use-lens%2Furql&logo=Use%20Lens%20urql%20on%20npm" alt="Use Lens urql on npm"/>
 </a>
-<a href="https://www.npmjs.com/package/@use-lens/react-apollo" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/npm/v/@use-lens/react-apollo/testnet?color=yellow&label=%40use-lens%2Freact-apollo&logo=Use%20Lens%20React%20Apollo%20testnet%20on%20npm" alt="Use Lens React Apollo testnet on npm"/>
+<a href="https://www.npmjs.com/package/@use-lens/urql" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/npm/v/@use-lens/urql/testnet?color=yellow&label=%40use-lens%2Furql&logo=Use%20Lens%20urql%20testnet%20on%20npm" alt="Use Lens urql testnet on npm"/>
 </a>
 
 > Works on Node.js LTS: https://nodejs.org/en
@@ -26,48 +26,31 @@ There is an explanation of how I see the best use of `@use-lens/*` at this point
 
 - Install package
 ```
-npm install --save @use-lens/react-apollo
+npm install --save @use-lens/urql
 ```
 - Add Apollo: https://www.apollographql.com/docs/react/get-started
 - Use generated code
 
 ```typescript jsx
-import {
-  useAuthenticateMutation,
-  useChallengeLazyQuery,
-  useGlobalProtocolStatsQuery
-} from '@use-lens/react-apollo';
-
-const SomeComponent = () => {
-  // component's code
-  const [loadChallenge] = useChallengeLazyQuery();
-  const [authenticate] = useAuthenticateMutation();
-
-  const { data, error, loading } = useGlobalProtocolStatsQuery();
-  
-  return // render data from Lens API.
-}
+// todo example
 ```
 
 ### Workflow
 - decide what you want to implement
 - go to 🌿 https://docs.lens.xyz to check what query or mutation you need to use
-- import from `@use-lens/react-apollo` what you need
+- import from `@use-lens/urql` what you need
   - document(query or mutation)
   - request / response types
 
 Detailed information about what is produced can be found here:
 
-https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript-react-apollo
+https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript-urql
 
 ## 👨‍🏫 Example
-https://github.com/use-lens/use-lens/tree/main/examples/react-apollo
+https://github.com/use-lens/use-lens/tree/main/examples/urql
 
 ## 🔎 LICENSE
 MIT. The full license text can be found in the LICENSE file.
 
 > ...The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
-## ⏲ Last update
-2022/12/07

@@ -1,0 +1,8 @@
+schema: lens-api.schema.graphql
+documents: lens-api.documents.graphql
+generates:
+  ./src/use-lens/urql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-urql
