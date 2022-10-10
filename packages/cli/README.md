@@ -59,7 +59,7 @@ Add `@use-lens/%PACKAGE%` or any name you want to **tsconfig.json**.
 ```
 
 ### WIP: CLI Flags
-- TODO: --output-path - by default `./src/use-lens/%PACKAGE%.ts`
+- TODO: --output-path - by default `./src/use-lens/%PACKAGE%`
 - TODO: --dry-run - by default `false`
 
 ### Recommended use
