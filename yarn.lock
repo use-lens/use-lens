@@ -4183,26 +4183,6 @@
     "@typescript-eslint/types" "5.37.0"
     eslint-visitor-keys "^3.3.0"
 
-"@use-lens/cli@^0.0.9-testnet.0":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@use-lens/cli/-/cli-0.0.9.tgz#5dcf54633ccdad894cfc295e3bda3423905d49a6"
-  integrity sha512-X6RZ3nvIfeUhJQuWn/41tiarVwpt5A0jVWxFUdxOtjNOuiI8NV2DtCovjfSCxwZAGMqaVM1pqn5+zKsnNzL0sA==
-  dependencies:
-    "@graphql-codegen/cli" "^2.12.0"
-    "@graphql-codegen/typescript" "^2.7.3"
-    "@graphql-codegen/typescript-operations" "^2.5.3"
-    "@graphql-codegen/typescript-react-apollo" "^3.3.3"
-    chalk "^5.0.1"
-    commander "^9.4.0"
-    graphql "^16.6.0"
-
-"@use-lens/react-apollo@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@use-lens/react-apollo/-/react-apollo-0.0.9.tgz#49cfdb0d8896f79b6d72ec6e735b1e147846628c"
-  integrity sha512-x9vyIH0zeMbaNw8Y0fKFam/JkVWMLElWwYHuKhBpnFuqo2vw77lCIZlhOQhOCugBWLpJF0KBqrtP7/b1OTZkSA==
-  dependencies:
-    "@apollo/client" "^3.6.9"
-
 "@wagmi/core@^0.5.7":
   version "0.5.7"
   resolved "https://registry.npmjs.org/@wagmi/core/-/core-0.5.7.tgz"
