@@ -6,6 +6,12 @@ type Query {
     request: ExplorePublicationRequest!
   ): ExplorePublicationResult!
   exploreProfiles(request: ExploreProfilesRequest!): ExploreProfileResult!
+  feed(request: FeedRequest!): PaginatedFeedResult!
+  feedHighlights(request: FeedHighlightsRequest!): PaginatedTimelineResult!
+  timeline(request: TimelineRequest!): PaginatedTimelineResult!
+    @deprecated(
+      reason: "You should be using feed, this will not be supported after 15th November 2021, please migrate."
+    )
   pendingApprovalFollows(
     request: PendingApprovalFollowsRequest!
   ): PendingApproveFollowsResult!
@@ -56,7 +62,6 @@ type Query {
     request: AllPublicationsTagsRequest!
   ): PaginatedAllPublicationsTagsResult!
   search(request: SearchQueryRequest!): SearchResult!
-  timeline(request: TimelineRequest!): PaginatedTimelineResult!
   userSigNonces: UserSigNonces!
   claimableHandles: ClaimableHandles!
   claimableStatus: ClaimStatus!
@@ -66,6 +71,9 @@ type Query {
   profileOnChainIdentity(
     request: ProfileOnChainIdentityRequest!
   ): [OnChainIdentity!]!
+
+  # Get the list of profile interests
+  profileInterests: [ProfileInterest!]!
   proxyActionStatus(
     proxyActionId: ProxyActionId!
   ): ProxyActionStatusResultUnion!
@@ -163,12 +171,22 @@ type Post {
   # The contract address for the collect nft.. if its null it means nobody collected yet as it lazy deployed
   collectNftAddress: ContractAddress
 
+  # Indicates if the publication is gated behind some access criteria
+  isGated: Boolean!
+
   # Who collected it, this is used for timeline results and like this for better caching for the client
   collectedBy: Wallet
+    @deprecated(
+      reason: "use `feed` query, timeline query will be killed on the 15th November. This includes this field."
+    )
   reaction(request: ReactionFieldResolverRequest): ReactionTypes
-  hasCollectedByMe: Boolean!
+  hasCollectedByMe(isFinalisedOnChain: Boolean): Boolean!
   canComment(profileId: ProfileId): CanCommentResponse!
   canMirror(profileId: ProfileId): CanMirrorResponse!
+  canDecrypt(
+    profileId: ProfileId
+    address: EthereumAddress
+  ): CanDecryptResponse!
   mirrors(by: ProfileId): [InternalPublicationId!]!
 }
 
@@ -221,7 +239,10 @@ type Profile {
 
   # The on chain identity
   onChainIdentity: OnChainIdentity!
-  isFollowedByMe: Boolean!
+
+  # The profile interests
+  interests: [ProfileInterest!]
+  isFollowedByMe(isFinalisedOnChain: Boolean): Boolean!
   isFollowing(who: ProfileId): Boolean!
 }
 
@@ -290,7 +311,7 @@ type Media {
   altTag: String
 
   # The cover for any video or audio you attached
-  cover: String
+  cover: Url
 }
 
 # mimetype custom scalar type
@@ -467,6 +488,9 @@ type WorldcoinIdentity {
   isHuman: Boolean!
 }
 
+# ProfileInterest custom scalar type
+scalar ProfileInterest
+
 # The publication stats
 type PublicationStats {
   # The publication id
@@ -526,6 +550,9 @@ type MetadataOutput {
 
   # The main focus of the publication
   animatedUrl: Url
+
+  # The publication's encryption params in case it's encrypted
+  encryptionParams: EncryptionParamsOutput
 }
 
 # Markdown scalar type
@@ -569,6 +596,216 @@ enum PublicationMainFocus {
   AUDIO
   LINK
   EMBED
+}
+
+# The metadata encryption params
+type EncryptionParamsOutput {
+  # The provider-specific encryption params
+  providerSpecificParams: ProviderSpecificParamsOutput!
+
+  # The encryption provider
+  encryptionProvider: EncryptionProvider!
+
+  # The access conditions
+  accessCondition: AccessConditionOutput!
+
+  # The encrypted fields
+  encryptedFields: EncryptedFieldsOutput!
+}
+
+# The provider-specific encryption params
+type ProviderSpecificParamsOutput {
+  # The encryption key
+  encryptionKey: ContentEncryptionKey!
+}
+
+# ContentEncryptionKey scalar type
+scalar ContentEncryptionKey
+
+# The gated publication encryption provider
+enum EncryptionProvider {
+  LIT_PROTOCOL
+}
+
+# The access conditions for the publication
+type AccessConditionOutput {
+  # NFT ownership condition
+  nft: NftOwnershipOutput
+
+  # ERC20 token ownership condition
+  token: Erc20OwnershipOutput
+
+  # EOA ownership condition
+  eoa: EoaOwnershipOutput
+
+  # Profile ownership condition
+  profile: ProfileOwnershipOutput
+
+  # Profile follow condition
+  follow: FollowConditionOutput
+
+  # Profile follow condition
+  collect: CollectConditionOutput
+
+  # AND condition
+  and: AndConditionOutput
+
+  # OR condition
+  or: OrConditionOutput
+}
+
+type NftOwnershipOutput {
+  # The NFT collection's ethereum address
+  contractAddress: ContractAddress!
+
+  # The NFT chain id
+  chainID: ChainId!
+
+  # The unlocker contract type
+  contractType: ContractType!
+
+  # The optional token ID(s) to check for ownership
+  tokenIds: TokenId
+}
+
+# ChainId custom scalar type
+scalar ChainId
+
+# The gated publication access criteria contract types
+enum ContractType {
+  ERC721
+  ERC1155
+  ERC20
+}
+
+# The NFT token id
+scalar TokenId
+
+type Erc20OwnershipOutput {
+  # The ERC20 token's ethereum address
+  contractAddress: ContractAddress!
+
+  # The amount of tokens required to access the content
+  chainID: ChainId!
+
+  # The amount of tokens required to access the content
+  amount: String!
+
+  # The amount of decimals of the ERC20 contract
+  decimals: Float!
+
+  # The operator to use when comparing the amount of tokens
+  condition: ScalarOperator!
+}
+
+# The gated publication access criteria scalar operators
+enum ScalarOperator {
+  EQUAL
+  NOT_EQUAL
+  GREATER_THAN
+  GREATER_THAN_OR_EQUAL
+  LESS_THAN
+  LESS_THAN_OR_EQUAL
+}
+
+type EoaOwnershipOutput {
+  # The address that will have access to the content
+  address: EthereumAddress!
+
+  # The chain ID of the address
+  chainID: ChainId!
+}
+
+# Condition that signifies if address has access to profile
+type ProfileOwnershipOutput {
+  # The profile id
+  profileId: ProfileId!
+}
+
+type FollowConditionOutput {
+  # The profile id of the gated profile
+  profileId: ProfileId!
+}
+
+# Condition that signifies if address or profile has collected a publication
+type CollectConditionOutput {
+  # The collected publication id
+  publisherId: ProfileId!
+
+  # The collected publication id
+  publicationId: PublicationId!
+}
+
+# Publication id custom scalar type
+scalar PublicationId
+
+type AndConditionOutput {
+  # The list of conditions to apply AND to. You can only use nested boolean conditions at the root level.
+  criteria: [AccessConditionOutput!]!
+}
+
+type OrConditionOutput {
+  # The list of conditions to apply OR to. You can only use nested boolean conditions at the root level.
+  criteria: [AccessConditionOutput!]!
+}
+
+# The encrypted fields
+type EncryptedFieldsOutput {
+  # The encrypted content field
+  content: EncryptedValueScalar
+
+  # The encrypted image field
+  image: EncryptedValueScalar
+
+  # The encrypted media field
+  media: [EncryptedMediaSet!]
+
+  # The encrypted animation_url field
+  animation_url: EncryptedValueScalar
+
+  # The encrypted external_url field
+  external_url: EncryptedValueScalar
+}
+
+# EncryptedValue custom scalar type
+scalar EncryptedValueScalar
+
+# The encrypted media set
+type EncryptedMediaSet {
+  # Original media
+  original: EncryptedMedia!
+
+  # Small media - will always be null on the public API
+  small: EncryptedMedia
+    @deprecated(reason: "should not be used will always be null")
+
+  # Medium media - will always be null on the public API
+  medium: EncryptedMedia
+    @deprecated(reason: "should not be used will always be null")
+}
+
+# The Encrypted Media url and metadata
+type EncryptedMedia {
+  # The encrypted value for the URL
+  url: Url!
+
+  # Width - will always be null on the public API
+  width: Int
+
+  # Height - will always be null on the public API
+  height: Int
+
+  # Size - will always be null on the public API
+  size: Int
+
+  # The image/audio/video mime type for the publication
+  mimeType: MimeType
+
+  # The encrypted alt tags for accessibility
+  altTag: EncryptedValueScalar
+
+  # The encrypted cover for any video or audio you attached
+  cover: EncryptedValueScalar
 }
 
 # The javascript `Date` as string. Type represents date and time as the ISO Date string.
@@ -776,6 +1013,24 @@ type CanMirrorResponse {
   result: Boolean!
 }
 
+type CanDecryptResponse {
+  result: Boolean!
+  reasons: DecryptFailReason
+}
+
+# The reason why a profile cannot decrypt a publication
+enum DecryptFailReason {
+  UNAUTHORIZED_ADDRESS
+  DOES_NOT_OWN_NFT
+  DOES_NOT_OWN_PROFILE
+  DOES_NOT_FOLLOW_PROFILE
+  HAS_NOT_COLLECTED_PUBLICATION
+  UNAUTHORIZED_BALANCE
+  PROFILE_DOES_NOT_EXIST
+  FOLLOW_NOT_FINALISED_ON_CHAIN
+  COLLECT_NOT_FINALISED_ON_CHAIN
+}
+
 # The social comment
 type Comment {
   # The internal publication id
@@ -811,6 +1066,9 @@ type Comment {
   # The contract address for the collect nft.. if its null it means nobody collected yet as it lazy deployed
   collectNftAddress: ContractAddress
 
+  # Indicates if the publication is gated behind some access criteria
+  isGated: Boolean!
+
   # The top level post/mirror this comment lives on
   mainPost: MainPostReference!
 
@@ -823,9 +1081,13 @@ type Comment {
   # Who collected it, this is used for timeline results and like this for better caching for the client
   collectedBy: Wallet
   reaction(request: ReactionFieldResolverRequest): ReactionTypes
-  hasCollectedByMe: Boolean!
+  hasCollectedByMe(isFinalisedOnChain: Boolean): Boolean!
   canComment(profileId: ProfileId): CanCommentResponse!
   canMirror(profileId: ProfileId): CanMirrorResponse!
+  canDecrypt(
+    profileId: ProfileId
+    address: EthereumAddress
+  ): CanDecryptResponse!
   mirrors(by: ProfileId): [InternalPublicationId!]!
 }
 
@@ -866,12 +1128,19 @@ type Mirror {
   # The contract address for the collect nft.. if its null it means nobody collected yet as it lazy deployed
   collectNftAddress: ContractAddress
 
+  # Indicates if the publication is gated behind some access criteria
+  isGated: Boolean!
+
   # The mirror publication
   mirrorOf: MirrorablePublication!
   reaction(request: ReactionFieldResolverRequest): ReactionTypes
-  hasCollectedByMe: Boolean!
+  hasCollectedByMe(isFinalisedOnChain: Boolean): Boolean!
   canComment(profileId: ProfileId): CanCommentResponse!
   canMirror(profileId: ProfileId): CanMirrorResponse!
+  canDecrypt(
+    profileId: ProfileId
+    address: EthereumAddress
+  ): CanDecryptResponse!
 }
 
 union MirrorablePublication = Post | Comment
@@ -884,8 +1153,8 @@ type PaginatedResultInfo {
   # Cursor to query next results
   next: Cursor
 
-  # The total number of entities the pagination iterates over. e.g. For a query that requests all nfts with more than 10 likes, this field gives the total amount of nfts with more than 10 likes, not the total amount of nfts
-  totalCount: Int!
+  # The total number of entities the pagination iterates over. If null it means it can not work it out due to dynamic or aggregated query e.g. For a query that requests all nfts with more than 10 likes, this field gives the total amount of nfts with more than 10 likes, not the total amount of nfts
+  totalCount: Int
 }
 
 # Cursor custom scalar type
@@ -997,6 +1266,137 @@ enum ProfileSortCriteria {
   MOST_COLLECTS
 }
 
+# The paginated feed result
+type PaginatedFeedResult {
+  items: [FeedItem!]!
+  pageInfo: PaginatedResultInfo!
+}
+
+type FeedItem {
+  root: FeedItemRoot!
+
+  # The elected mirror will be the first Mirror publication within the page results set
+  electedMirror: ElectedMirror
+
+  # Sorted by most recent first. Up to page size - 1 mirrors
+  mirrors: [MirrorEvent!]!
+
+  # Sorted by most recent first. Resolves defaultProfile and if null omits the wallet collect event from the list.
+  collects: [CollectedEvent!]!
+
+  # Sorted by most recent first. Up to page size - 1 reactions
+  reactions: [ReactionEvent!]!
+
+  # Sorted by most recent first. Up to page size - 1 comments.
+  comments: [Comment!]
+}
+
+union FeedItemRoot = Post | Comment
+
+type ElectedMirror {
+  mirrorId: InternalPublicationId!
+  profile: Profile!
+  timestamp: DateTime!
+}
+
+type MirrorEvent {
+  profile: Profile!
+  timestamp: DateTime!
+}
+
+type CollectedEvent {
+  profile: Profile!
+  timestamp: DateTime!
+}
+
+type ReactionEvent {
+  profile: Profile!
+  reaction: ReactionTypes!
+  timestamp: DateTime!
+}
+
+input FeedRequest {
+  limit: LimitScalar
+  cursor: Cursor
+
+  # The profile id
+  profileId: ProfileId!
+
+  # Filter your feed to whatever you wish
+  feedEventItemTypes: [FeedEventItemType!] = [
+    POST
+    COMMENT
+    MIRROR
+    COLLECT_POST
+    COLLECT_COMMENT
+    REACTION_POST
+    REACTION_COMMENT
+  ]
+
+  # The App Id
+  sources: [Sources!] = []
+  metadata: PublicationMetadataFilters
+}
+
+# The feed event item filter types
+enum FeedEventItemType {
+  POST
+  COMMENT
+  MIRROR
+  COLLECT_POST
+  COLLECT_COMMENT
+  REACTION_POST
+  REACTION_COMMENT
+}
+
+# The paginated timeline result
+type PaginatedTimelineResult {
+  items: [Publication!]!
+  pageInfo: PaginatedResultInfo!
+}
+
+input FeedHighlightsRequest {
+  limit: LimitScalar
+  cursor: Cursor
+
+  # The profile id
+  profileId: ProfileId!
+
+  # The App Id
+  sources: [Sources!] = []
+  metadata: PublicationMetadataFilters
+}
+
+input TimelineRequest {
+  limit: LimitScalar
+  cursor: Cursor
+
+  # The profile id
+  profileId: ProfileId!
+
+  # The App Id
+  sources: [Sources!] = []
+
+  # The timeline types you wish to include, if nothing passed in will bring back all
+  timelineTypes: [TimelineType!] = [
+    COLLECT_COMMENT
+    COLLECT_POST
+    COMMENT
+    POST
+    MIRROR
+  ]
+  metadata: PublicationMetadataFilters
+}
+
+# Timeline types
+enum TimelineType {
+  POST
+  COMMENT
+  MIRROR
+  COLLECT_POST
+  COLLECT_COMMENT
+}
+
 # The paginated follow result
 type PendingApproveFollowsResult {
   items: [Profile!]!
@@ -1018,6 +1418,9 @@ type DoesFollowResponse {
 
   # If the user does follow
   follows: Boolean!
+
+  # Is finalised on-chain
+  isFinalisedOnChain: Boolean!
 }
 
 input DoesFollowRequest {
@@ -1300,9 +1703,6 @@ type NFTContent {
   animatedUrl: String
 }
 
-# ChainId custom scalar type
-scalar ChainId
-
 input NFTsRequest {
   limit: LimitScalar
   cursor: Cursor
@@ -1421,10 +1821,40 @@ input NotificationRequest {
   # The profile id
   profileId: ProfileId!
 
+  # The profile id
+  notificationTypes: [NotificationTypes!] = [
+    MIRRORED_POST
+    MIRRORED_COMMENT
+    MENTION_POST
+    MENTION_COMMENT
+    COMMENTED_COMMENT
+    COMMENTED_POST
+    COLLECTED_POST
+    COLLECTED_COMMENT
+    FOLLOWED
+    REACTION_POST
+    REACTION_COMMENT
+  ]
+
   # The App Id
   sources: [Sources!] = []
   metadata: PublicationMetadataFilters
   customFilters: [CustomFiltersTypes!] = []
+}
+
+# The notification filter types
+enum NotificationTypes {
+  MIRRORED_POST
+  MIRRORED_COMMENT
+  MENTION_POST
+  MENTION_COMMENT
+  COMMENTED_COMMENT
+  COMMENTED_POST
+  COLLECTED_POST
+  COLLECTED_COMMENT
+  FOLLOWED
+  REACTION_POST
+  REACTION_COMMENT
 }
 
 input ProfileQueryRequest {
@@ -1455,6 +1885,9 @@ input SingleProfileQueryRequest {
 input RecommendedProfileOptions {
   # If you wish to turn ML off
   disableML: Boolean = false
+
+  # If you wish to shuffle the results
+  shuffle: Boolean = false
 }
 
 input DefaultProfileRequest {
@@ -1506,6 +1939,9 @@ input PublicationsQueryRequest {
 
   # Profile id
   profileId: ProfileId
+
+  # Profile ids
+  profileIds: [ProfileId!]
 
   # The publication types you want to query
   publicationTypes: [PublicationTypes!]
@@ -1639,42 +2075,6 @@ input SearchQueryRequest {
 
 # Query search
 scalar Search
-
-# The paginated timeline result
-type PaginatedTimelineResult {
-  items: [Publication!]!
-  pageInfo: PaginatedResultInfo!
-}
-
-input TimelineRequest {
-  limit: LimitScalar
-  cursor: Cursor
-
-  # The profile id
-  profileId: ProfileId!
-
-  # The App Id
-  sources: [Sources!] = []
-
-  # The timeline types you wish to include, if nothing passed in will bring back all
-  timelineTypes: [TimelineType!] = [
-    COLLECT_COMMENT
-    COLLECT_POST
-    COMMENT
-    POST
-    MIRROR
-  ]
-  metadata: PublicationMetadataFilters
-}
-
-# Timeline types
-enum TimelineType {
-  POST
-  COMMENT
-  MIRROR
-  COLLECT_POST
-  COLLECT_COMMENT
-}
 
 type UserSigNonces {
   lensHubOnChainSigNonce: Nonce!
@@ -1830,7 +2230,7 @@ input MetadataAttributeInput {
   value: String!
 }
 
-# The metadata attribute output
+# The metadata attribute input
 input PublicationMetadataMediaInput {
   item: Url!
 
@@ -1841,7 +2241,13 @@ input PublicationMetadataMediaInput {
   altTag: String
 
   # The cover for any video or audio you attached
-  cover: String
+  cover: Url
+  source: PublicationMediaSource = LENS
+}
+
+# The source of the media
+enum PublicationMediaSource {
+  LENS
 }
 
 input PublicationMetadataV2Input {
@@ -2052,7 +2458,14 @@ type Mutation {
   ): CreateMirrorBroadcastItemResult!
   hidePublication(request: HidePublicationRequest!): Void
   createMirrorViaDispatcher(request: CreateMirrorRequest!): RelayResult!
+  createAttachMediaData(request: PublicMediaRequest!): PublicMediaResults!
   claim(request: ClaimHandleRequest!): RelayResult!
+
+  # Adds profile interests to the given profile
+  addProfileInterests(request: AddProfileInterestsRequest!): Void
+
+  # Removes profile interests from the given profile
+  removeProfileInterests(request: RemoveProfileInterestsRequest!): Void
   createSetProfileMetadataTypedData(
     options: TypedDataOptions
     request: CreatePublicSetProfileMetadataURIRequest!
@@ -2524,9 +2937,6 @@ type CreateCollectEIP712TypedDataValue {
   data: BlockchainData!
 }
 
-# Publication id custom scalar type
-scalar PublicationId
-
 input CreateCollectRequest {
   publicationId: InternalPublicationId!
 
@@ -2703,6 +3113,9 @@ input CreatePublicPostRequest {
 
   # The reference module
   referenceModule: ReferenceModuleParams
+
+  # The criteria to access the publication data
+  gated: GatedPublicationParamsInput
 }
 
 input CollectModuleParams {
@@ -2831,6 +3244,132 @@ input DegreesOfSeparationReferenceModuleParams {
   degreesOfSeparation: Int!
 }
 
+# The access conditions for the publication
+input GatedPublicationParamsInput {
+  # NFT ownership condition
+  nft: NftOwnershipInput
+
+  # ERC20 token ownership condition
+  token: Erc20OwnershipInput
+
+  # EOA ownership condition
+  eoa: EoaOwnershipInput
+
+  # Profile ownership condition
+  profile: ProfileOwnershipInput
+
+  # Profile follow condition
+  follow: FollowConditionInput
+
+  # Profile follow condition
+  collect: CollectConditionInput
+
+  # AND condition
+  and: AndConditionInput
+
+  # OR condition
+  or: OrConditionInput
+
+  # The LIT Protocol encrypted symmetric key
+  encryptedSymmetricKey: ContentEncryptionKey!
+}
+
+input NftOwnershipInput {
+  # The NFT collection's ethereum address
+  contractAddress: ContractAddress!
+
+  # The NFT chain id
+  chainID: ChainId!
+
+  # The unlocker contract type
+  contractType: ContractType!
+
+  # The optional token ID(s) to check for ownership
+  tokenIds: TokenId
+}
+
+input Erc20OwnershipInput {
+  # The ERC20 token's ethereum address
+  contractAddress: ContractAddress!
+
+  # The amount of tokens required to access the content
+  chainID: ChainId!
+
+  # The amount of tokens required to access the content
+  amount: String!
+
+  # The amount of decimals of the ERC20 contract
+  decimals: Float!
+
+  # The operator to use when comparing the amount of tokens
+  condition: ScalarOperator!
+}
+
+input EoaOwnershipInput {
+  # The address that will have access to the content
+  address: EthereumAddress!
+
+  # The chain ID of the address
+  chainID: ChainId!
+}
+
+# Condition that signifies if address has access to profile
+input ProfileOwnershipInput {
+  # The profile id
+  profileId: ProfileId!
+}
+
+input FollowConditionInput {
+  # The profile id of the gated profile
+  profileId: ProfileId!
+}
+
+# Condition that signifies if address or profile has collected a publication
+input CollectConditionInput {
+  # The collected publication id
+  publisherId: ProfileId!
+
+  # The collected publication id
+  publicationId: PublicationId!
+}
+
+input AndConditionInput {
+  # The list of conditions to apply AND to. You can only use nested boolean conditions at the root level.
+  criteria: [AccessConditionInput!]!
+}
+
+# The access conditions for the publication
+input AccessConditionInput {
+  # NFT ownership condition
+  nft: NftOwnershipInput
+
+  # ERC20 token ownership condition
+  token: Erc20OwnershipInput
+
+  # EOA ownership condition
+  eoa: EoaOwnershipInput
+
+  # Profile ownership condition
+  profile: ProfileOwnershipInput
+
+  # Profile follow condition
+  follow: FollowConditionInput
+
+  # Profile follow condition
+  collect: CollectConditionInput
+
+  # AND condition
+  and: AndConditionInput
+
+  # OR condition
+  or: OrConditionInput
+}
+
+input OrConditionInput {
+  # The list of conditions to apply OR to. You can only use nested boolean conditions at the root level.
+  criteria: [AccessConditionInput!]!
+}
+
 # The broadcast item
 type CreateCommentBroadcastItemResult {
   # This broadcast item ID
@@ -2890,6 +3429,9 @@ input CreatePublicCommentRequest {
 
   # The reference module
   referenceModule: ReferenceModuleParams
+
+  # The criteria to access the publication data
+  gated: GatedPublicationParamsInput
 }
 
 # The broadcast item
@@ -2949,6 +3491,47 @@ input HidePublicationRequest {
   publicationId: InternalPublicationId!
 }
 
+# The response to upload the attached file
+type PublicMediaResults {
+  # Signed url to push the file
+  signedUrl: String!
+
+  # ipfs uri to add on the metadata
+  media: MediaOutput!
+}
+
+# Media object output
+type MediaOutput {
+  item: Url!
+
+  # This is the mime type of media
+  type: MimeType
+
+  # The alt tags for accessibility
+  altTag: String
+
+  # The cover for any video or audio you attached
+  cover: Url
+  source: PublicationMediaSource
+}
+
+input PublicMediaRequest {
+  # Pre calculated cid of the file to push
+  itemCid: IfpsCid!
+
+  # This is the mime type of media
+  type: MimeType
+
+  # The alt tags for accessibility
+  altTag: String
+
+  # The cover for any video or audio you attached
+  cover: Url
+}
+
+# IfpsCid scalar type
+scalar IfpsCid
+
 input ClaimHandleRequest {
   id: HandleClaimIdScalar
   freeTextHandle: CreateHandle
@@ -2959,6 +3542,24 @@ input ClaimHandleRequest {
 
 # create handle custom scalar type
 scalar CreateHandle
+
+# The request object to add interests to a profile
+input AddProfileInterestsRequest {
+  # The profile interest to add
+  interests: [ProfileInterest!]!
+
+  # The profileId to add interests to
+  profileId: ProfileId!
+}
+
+# The request object to remove interests from a profile
+input RemoveProfileInterestsRequest {
+  # The profile interest to add
+  interests: [ProfileInterest!]!
+
+  # The profileId to add interests to
+  profileId: ProfileId!
+}
 
 # The broadcast item
 type CreateSetProfileMetadataURIBroadcastItemResult {

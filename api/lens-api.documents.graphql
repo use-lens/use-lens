@@ -16,6 +16,18 @@ query approvedModuleAllowanceAmount($request: ApprovedModuleAllowanceAmountReque
     allowance
   }
 }
+mutation createAttachMediaData($request: PublicMediaRequest!) {
+  createAttachMediaData(request: $request) {
+    signedUrl
+    media {
+      item
+      type
+      cover
+      source
+      altTag
+    }
+  }
+}
 mutation authenticate($request: SignedAuthChallenge!) {
   authenticate(request: $request) {
     accessToken
@@ -187,6 +199,7 @@ fragment ProfileFields on Profile {
   ownedBy
   dispatcher {
     address
+    canUseRelay
   }
   stats {
     totalFollowers
@@ -525,6 +538,74 @@ fragment ReferenceModuleFields on ReferenceModule {
     commentsRestricted
     mirrorsRestricted
     degreesOfSeparation
+  }
+}
+mutation CreateCommentViaDispatcher($request: CreatePublicCommentRequest!) {
+  createCommentViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
+  }
+}
+mutation CreateMirrorViaDispatcher($request: CreateMirrorRequest!) {
+  createMirrorViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
+  }
+}
+mutation CreatePostViaDispatcher($request: CreatePublicPostRequest!) {
+  createPostViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
+  }
+}
+mutation createProfile($request: CreateProfileRequest!) {
+  createProfile(request: $request) {
+    ... on RelayerResult {
+      txHash
+    }
+    ... on RelayError {
+      reason
+    }
+    __typename
+  }
+}
+mutation CreateSetProfileImageURIViaDispatcher($request: UpdateProfileImageRequest!) {
+  createSetProfileImageURIViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
+  }
+}
+mutation CreateSetProfileMetadataViaDispatcher(
+  $request: CreatePublicSetProfileMetadataURIRequest!
+) {
+  createSetProfileMetadataViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
   }
 }
 mutation CreateSetDispatcherTypedData($request: SetDispatcherRequest!) {
@@ -917,6 +998,59 @@ mutation createPostTypedData($request: CreatePublicPostRequest!) {
         referenceModule
         referenceModuleInitData
       }
+    }
+  }
+}
+query ProfileFeed($request: FeedRequest!) {
+  feed(request: $request) {
+    items {
+      root {
+        __typename
+        ... on Post {
+          ...PostFields
+        }
+        ... on Comment {
+          ...CommentFields
+        }
+      }
+      electedMirror {
+        mirrorId
+        profile {
+          id
+          handle
+        }
+        timestamp
+      }
+      mirrors {
+        profile {
+          id
+          handle
+        }
+        timestamp
+      }
+      collects {
+        profile {
+          id
+          handle
+        }
+        timestamp
+      }
+      reactions {
+        profile {
+          id
+          handle
+        }
+        reaction
+        timestamp
+      }
+      comments {
+        ...CommentFields
+      }
+    }
+    pageInfo {
+      prev
+      next
+      totalCount
     }
   }
 }
