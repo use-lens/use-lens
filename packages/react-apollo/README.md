@@ -66,3 +66,6 @@ MIT. The full license text can be found in the LICENSE file.
 
 > ...The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
+## ⏲ Last update
+2022/11/20
