@@ -28,6 +28,14 @@
 
 [//]: # (### Fixed)
 
+## [1.0.4] - 2022-11-24
+
+### Changed
+
+- fix common `npm audit` vulnerabilities
+- feat(@use-lens/react-apollo): v1.0.4
+- feat(@use-lens/cli): v1.0.4
+
 ## [1.0.3] - 2022-11-20
 
 ### Changed
