@@ -573,6 +573,17 @@ mutation CreatePostViaDispatcher($request: CreatePublicPostRequest!) {
     }
   }
 }
+mutation createProfile($request: CreateProfileRequest!) {
+  createProfile(request: $request) {
+    ... on RelayerResult {
+      txHash
+    }
+    ... on RelayError {
+      reason
+    }
+    __typename
+  }
+}
 mutation CreateSetProfileImageURIViaDispatcher($request: UpdateProfileImageRequest!) {
   createSetProfileImageURIViaDispatcher(request: $request) {
     ... on RelayerResult {
