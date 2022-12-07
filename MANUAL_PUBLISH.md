@@ -5,4 +5,9 @@
 - Implement things you want
 - Build with `./build-only.sh` and test required **/packages** with **/examples**
 - Commit and push changes for the lib and the submodule
-- Publish: `./publish-testnet.sh` -> `./publish-mainnet.sh`
+- Update:
+  - CHANGELOG.md
+  - `/packages/*` README's _Last Update_
+- Publish in order:
+  - `./publish-testnet.sh`
+  - `./publish-mainnet.sh`

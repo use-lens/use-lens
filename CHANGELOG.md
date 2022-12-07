@@ -28,6 +28,14 @@
 
 [//]: # (### Fixed)
 
+## [1.0.5] - 2022-12-07
+### Changed
+- feat(@use-lens/react-apollo): v1.0.5
+  - sync GraphQL Documents with [/lens-protocol/api-examples](https://github.com/lens-protocol/api-examples)
+  - get-publication-encrypted.graphql
+  - common updates
+- feat(@use-lens/cli): v1.0.5
+
 ## [1.0.4] - 2022-11-24
 
 ### Changed
