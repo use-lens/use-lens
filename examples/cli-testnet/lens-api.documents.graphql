@@ -16,6 +16,18 @@ query approvedModuleAllowanceAmount($request: ApprovedModuleAllowanceAmountReque
     allowance
   }
 }
+mutation createAttachMediaData($request: PublicMediaRequest!) {
+  createAttachMediaData(request: $request) {
+    signedUrl
+    media {
+      item
+      type
+      cover
+      source
+      altTag
+    }
+  }
+}
 mutation authenticate($request: SignedAuthChallenge!) {
   authenticate(request: $request) {
     accessToken
@@ -187,6 +199,7 @@ fragment ProfileFields on Profile {
   ownedBy
   dispatcher {
     address
+    canUseRelay
   }
   stats {
     totalFollowers
@@ -245,6 +258,23 @@ fragment MetadataOutputFields on MetadataOutput {
     traitType
     value
   }
+  encryptionParams {
+    providerSpecificParams {
+      encryptionKey
+    }
+    accessCondition {
+        ...AccessConditionFields
+    }
+    encryptedFields {
+        animation_url
+        content
+        external_url
+        image
+        media {
+            ...EncryptedMediaSetFields
+        }
+    }
+  }
 }
 
 fragment Erc20Fields on Erc20 {
@@ -277,6 +307,7 @@ fragment PostFields on Post {
   reaction(request: null)
   mirrors(by: null)
   hasCollectedByMe
+  isGated
 }
 
 fragment MirrorBaseFields on Mirror {
@@ -301,6 +332,7 @@ fragment MirrorBaseFields on Mirror {
   hidden
   reaction(request: null)
   hasCollectedByMe
+  isGated
 }
 
 fragment MirrorFields on Mirror {
@@ -338,6 +370,7 @@ fragment CommentBaseFields on Comment {
   reaction(request: null)
   mirrors(by: null)
   hasCollectedByMe
+  isGated
 }
 
 fragment CommentFields on Comment {
@@ -525,6 +558,207 @@ fragment ReferenceModuleFields on ReferenceModule {
     commentsRestricted
     mirrorsRestricted
     degreesOfSeparation
+  }
+}
+
+fragment Erc20OwnershipFields on Erc20OwnershipOutput {
+  contractAddress
+  amount
+  chainID
+  condition
+  decimals
+}
+
+fragment EoaOwnershipFields on EoaOwnershipOutput {
+  address
+}
+
+fragment NftOwnershipFields on NftOwnershipOutput {
+  contractAddress
+  chainID
+  contractType
+  tokenIds
+}
+
+fragment ProfileOwnershipFields on ProfileOwnershipOutput {
+  profileId
+}
+
+fragment FollowConditionFields on FollowConditionOutput {
+  profileId
+}
+
+fragment CollectConditionFields on CollectConditionOutput {
+  publicationId
+  thisPublication
+}
+
+fragment AndConditionFields on AndConditionOutput {
+  criteria {
+    ...AccessConditionFields
+  }
+}
+
+fragment OrConditionFields on OrConditionOutput {
+  criteria {
+    ...AccessConditionFields
+  }
+}
+fragment AndConditionFieldsNoRecursive on AndConditionOutput {
+  criteria {
+    ...SimpleConditionFields
+  }
+}
+
+fragment OrConditionFieldsNoRecursive on OrConditionOutput {
+  criteria {
+    ...SimpleConditionFields
+  }
+}
+
+fragment SimpleConditionFields on AccessConditionOutput {
+  nft {
+    ...NftOwnershipFields
+  }
+  eoa {
+    ...EoaOwnershipFields
+  }
+  token {
+    ...Erc20OwnershipFields
+  }
+  profile {
+    ...ProfileOwnershipFields
+  }
+  follow {
+    ...FollowConditionFields
+  }
+  collect {
+    ...CollectConditionFields
+  }
+}
+
+fragment BooleanConditionFieldsRecursive on AccessConditionOutput {
+  and {
+     criteria {
+         ...SimpleConditionFields
+         and {
+             criteria {
+                 ...SimpleConditionFields
+             }
+         }
+         or {
+             criteria {
+                 ...SimpleConditionFields
+             }
+         }
+     }
+  }
+  or {
+     criteria {
+         ...SimpleConditionFields
+         and {
+             criteria {
+                 ...SimpleConditionFields
+             }
+         }
+         or {
+             criteria {
+                 ...SimpleConditionFields
+             }
+         }
+     }
+  }
+}
+
+fragment AccessConditionFields on AccessConditionOutput {
+    ...SimpleConditionFields
+    ...BooleanConditionFieldsRecursive
+}
+
+fragment EncryptedMediaFields on EncryptedMedia {
+  url
+  width
+  height
+  mimeType
+}
+
+fragment EncryptedMediaSetFields on EncryptedMediaSet {
+   original {
+       ...EncryptedMediaFields
+   }
+   small {
+       ...EncryptedMediaFields
+   }
+   medium {
+       ...EncryptedMediaFields
+   }
+}
+mutation CreateCommentViaDispatcher($request: CreatePublicCommentRequest!) {
+  createCommentViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
+  }
+}
+mutation CreateMirrorViaDispatcher($request: CreateMirrorRequest!) {
+  createMirrorViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
+  }
+}
+mutation CreatePostViaDispatcher($request: CreatePublicPostRequest!) {
+  createPostViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
+  }
+}
+mutation createProfile($request: CreateProfileRequest!) {
+  createProfile(request: $request) {
+    ... on RelayerResult {
+      txHash
+    }
+    ... on RelayError {
+      reason
+    }
+    __typename
+  }
+}
+mutation CreateSetProfileImageURIViaDispatcher($request: UpdateProfileImageRequest!) {
+  createSetProfileImageURIViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
+  }
+}
+mutation CreateSetProfileMetadataViaDispatcher(
+  $request: CreatePublicSetProfileMetadataURIRequest!
+) {
+  createSetProfileMetadataViaDispatcher(request: $request) {
+    ... on RelayerResult {
+      txHash
+      txId
+    }
+    ... on RelayError {
+      reason
+    }
   }
 }
 mutation CreateSetDispatcherTypedData($request: SetDispatcherRequest!) {
@@ -727,6 +961,29 @@ query profiles($request: ProfileQueryRequest!) {
     }
   }
 }
+query publicationEncrypted($request: PublicationQueryRequest!, $profileId: ProfileId!) {
+  publication(request: $request) {
+    __typename
+    ... on Post {
+      ...PostFields
+      canDecrypt(profileId: $profileId) {
+        result
+      }
+    }
+    ... on Comment {
+      ...CommentFields
+      canDecrypt(profileId: $profileId) {
+        result
+      }
+    }
+    ... on Mirror {
+      ...MirrorFields
+      canDecrypt(profileId: $profileId) {
+        result
+      }
+    }
+  }
+}
 query publication($request: PublicationQueryRequest!) {
   publication(request: $request) {
     __typename
@@ -917,6 +1174,59 @@ mutation createPostTypedData($request: CreatePublicPostRequest!) {
         referenceModule
         referenceModuleInitData
       }
+    }
+  }
+}
+query ProfileFeed($request: FeedRequest!) {
+  feed(request: $request) {
+    items {
+      root {
+        __typename
+        ... on Post {
+          ...PostFields
+        }
+        ... on Comment {
+          ...CommentFields
+        }
+      }
+      electedMirror {
+        mirrorId
+        profile {
+          id
+          handle
+        }
+        timestamp
+      }
+      mirrors {
+        profile {
+          id
+          handle
+        }
+        timestamp
+      }
+      collects {
+        profile {
+          id
+          handle
+        }
+        timestamp
+      }
+      reactions {
+        profile {
+          id
+          handle
+        }
+        reaction
+        timestamp
+      }
+      comments {
+        ...CommentFields
+      }
+    }
+    pageInfo {
+      prev
+      next
+      totalCount
     }
   }
 }

@@ -41,7 +41,7 @@
     ]
   },
   "devDependencies": {
-    "@use-lens/cli": "^1.0.2-testnet.0",
+    "@use-lens/cli": "testnet",
     "react-scripts": "5.0.1"
   }
 }
