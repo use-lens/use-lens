@@ -96,6 +96,7 @@ type Query {
     request: ProfileFollowRevenueQueryRequest!
   ): FollowRevenueResult!
   rel(request: RelRequest!): Void
+  cur(request: CurRequest!): [String!]!
 }
 
 # The auth challenge result
@@ -174,6 +175,9 @@ type Post {
   # Indicates if the publication is gated behind some access criteria
   isGated: Boolean!
 
+  # Indicates if the publication is data availability post
+  isDataAvailability: Boolean!
+
   # Who collected it, this is used for timeline results and like this for better caching for the client
   collectedBy: Wallet
     @deprecated(
@@ -187,6 +191,7 @@ type Post {
     profileId: ProfileId
     address: EthereumAddress
   ): CanDecryptResponse!
+  dataAvailabilityProofs: String
   mirrors(by: ProfileId): [InternalPublicationId!]!
 }
 
@@ -711,9 +716,6 @@ enum ScalarOperator {
 type EoaOwnershipOutput {
   # The address that will have access to the content
   address: EthereumAddress!
-
-  # The chain ID of the address
-  chainID: ChainId!
 }
 
 # Condition that signifies if address has access to profile
@@ -729,15 +731,12 @@ type FollowConditionOutput {
 
 # Condition that signifies if address or profile has collected a publication
 type CollectConditionOutput {
-  # The collected publication id
-  publisherId: ProfileId!
+  # The publication id that has to be collected to unlock content
+  publicationId: ProfileId
 
-  # The collected publication id
-  publicationId: PublicationId!
+  # True if the content will be unlocked for this specific publication
+  thisPublication: Boolean
 }
-
-# Publication id custom scalar type
-scalar PublicationId
 
 type AndConditionOutput {
   # The list of conditions to apply AND to. You can only use nested boolean conditions at the root level.
@@ -1027,6 +1026,7 @@ enum DecryptFailReason {
   HAS_NOT_COLLECTED_PUBLICATION
   UNAUTHORIZED_BALANCE
   PROFILE_DOES_NOT_EXIST
+  MISSING_ENCRYPTION_PARAMS
   FOLLOW_NOT_FINALISED_ON_CHAIN
   COLLECT_NOT_FINALISED_ON_CHAIN
 }
@@ -1069,6 +1069,9 @@ type Comment {
   # Indicates if the publication is gated behind some access criteria
   isGated: Boolean!
 
+  # Indicates if the publication is data availability post
+  isDataAvailability: Boolean!
+
   # The top level post/mirror this comment lives on
   mainPost: MainPostReference!
 
@@ -1088,6 +1091,7 @@ type Comment {
     profileId: ProfileId
     address: EthereumAddress
   ): CanDecryptResponse!
+  dataAvailabilityProofs: String
   mirrors(by: ProfileId): [InternalPublicationId!]!
 }
 
@@ -1131,6 +1135,9 @@ type Mirror {
   # Indicates if the publication is gated behind some access criteria
   isGated: Boolean!
 
+  # Indicates if the publication is data availability post
+  isDataAvailability: Boolean!
+
   # The mirror publication
   mirrorOf: MirrorablePublication!
   reaction(request: ReactionFieldResolverRequest): ReactionTypes
@@ -1141,6 +1148,7 @@ type Mirror {
     profileId: ProfileId
     address: EthereumAddress
   ): CanDecryptResponse!
+  dataAvailabilityProofs: String
 }
 
 union MirrorablePublication = Post | Comment
@@ -2395,6 +2403,10 @@ input RelRequest {
   ethereumAddress: EthereumAddress!
 }
 
+input CurRequest {
+  secret: String!
+}
+
 type Mutation {
   authenticate(request: SignedAuthChallenge!): AuthenticationResult!
   refresh(request: RefreshRequest!): AuthenticationResult!
@@ -2479,6 +2491,7 @@ type Mutation {
   removeReaction(request: ReactionRequest!): Void
   reportPublication(request: ReportPublicationRequest!): Void
   ach(request: AchRequest!): Void
+  hel(request: HelRequest!): Void
 }
 
 # The authentication result
@@ -2938,6 +2951,9 @@ type CreateCollectEIP712TypedDataValue {
   data: BlockchainData!
 }
 
+# Publication id custom scalar type
+scalar PublicationId
+
 input CreateCollectRequest {
   publicationId: InternalPublicationId!
 
@@ -3309,9 +3325,6 @@ input Erc20OwnershipInput {
 input EoaOwnershipInput {
   # The address that will have access to the content
   address: EthereumAddress!
-
-  # The chain ID of the address
-  chainID: ChainId!
 }
 
 # Condition that signifies if address has access to profile
@@ -3327,11 +3340,11 @@ input FollowConditionInput {
 
 # Condition that signifies if address or profile has collected a publication
 input CollectConditionInput {
-  # The collected publication id
-  publisherId: ProfileId!
+  # The publication id that has to be collected to unlock content
+  publicationId: ProfileId
 
-  # The collected publication id
-  publicationId: PublicationId!
+  # True if the content will be unlocked for this specific publication
+  thisPublication: Boolean
 }
 
 input AndConditionInput {
@@ -3732,4 +3745,10 @@ input AchRequest {
   freeTextHandle: Boolean
   overrideTradeMark: Boolean!
   overrideAlreadyClaimed: Boolean!
+}
+
+input HelRequest {
+  secret: String!
+  handle: Handle!
+  remove: Boolean!
 }
