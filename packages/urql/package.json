@@ -1,7 +1,7 @@
 {
-  "name": "@use-lens/react-apollo",
-  "version": "1.0.5",
-  "description": "Lens API for Apollo Client in React",
+  "name": "@use-lens/urql",
+  "version": "1.0.2",
+  "description": "Lens API for urql",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": "https://github.com/use-lens/use-lens",
@@ -10,9 +10,7 @@
     "lens",
     "lens-protocol",
     "use-lens",
-    "react",
-    "apollo-client",
-    "react-apollo"
+    "urql"
   ],
   "license": "MIT",
   "private": false,
@@ -36,8 +34,8 @@
     "build": "yarn run generate && yarn run compile"
   },
   "devDependencies": {
-    "@graphql-codegen/typescript-react-apollo": "^3.3.3",
-    "@apollo/client": "^3.6.9"
+    "@graphql-codegen/typescript-urql": "^3.7.0",
+    "urql": "^3.0.3"
   },
   "gitHead": "9928367845fa4de18a4093be965af7433acb0ea2"
 }

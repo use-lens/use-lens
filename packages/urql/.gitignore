@@ -1,0 +1,11 @@
+# Build files
+lib/
+
+# graphql-codegen files
+src/use-lens/*
+!src/use-lens/.gitkeep
+
+# @use-lens files
+.use-lens.json
+lens-api.schema.graphql
+lens-api.documents.graphql

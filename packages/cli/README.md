@@ -8,6 +8,8 @@ A CLI tool to generate Lens API code for different frameworks.
   <img src="https://img.shields.io/npm/v/@use-lens/cli/testnet?color=yellow&label=%40use-lens%2Fcli&logo=Use%20Lens%20CLI%20testnet%20on%20npm" alt="Use Lens CLI testnet on npm"/>
 </a>
 
+> Works on Node.js LTS: https://nodejs.org/en
+
 ## ⚠️ CAUTION
 🌿 https://docs.lens.xyz/docs/introduction:
 > This API is beta and not production complete yet, which means that we could change schemas and endpoints at any time without warning or notice to you. When this API is production ready, we will remove this beta warning and will endeavor to ensure that there are no changes going forward unless a major change to the protocol itself is required.
@@ -57,7 +59,7 @@ Add `@use-lens/%PACKAGE%` or any name you want to **tsconfig.json**.
 ```
 
 ### WIP: CLI Flags
-- TODO: --output-path - by default `./src/use-lens/%PACKAGE%.ts`
+- TODO: --output-path - by default `./src/use-lens/%PACKAGE%`
 - TODO: --dry-run - by default `false`
 
 ### Recommended use
