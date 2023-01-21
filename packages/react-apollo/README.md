@@ -1,3 +1,8 @@
+# ⚠️ Deprecation notice ⚠️
+> This library would be deprecated in favor of official [Lens Protocol's SDK](https://github.com/lens-protocol/lens-sdk) on 14th of February 2023.
+
+> Do "Emergency Eject"(described in the root README.md) to replace usage of this lib
+
 # @use-lens/react-apollo
 Lens API generated code for Apollo Client in React.
 

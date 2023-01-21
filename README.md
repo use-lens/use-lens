@@ -1,3 +1,10 @@
+# ⚠️ Deprecation notice ⚠️
+> This experimental set of libraries would be deprecated in favor of official [Lens Protocol's SDK](https://github.com/lens-protocol/lens-sdk) on 14th of February 2023.
+
+> For `@use-lens/react-apollo` use "Emergency Eject"(down below)
+> 
+> For `@use-lens/cli` no action required, except updating Lens's GraphQL API manually.
+
 # 🌱 Use Lens
 `use-lens/use-lens` is a monorepo that contains packages and CLI with generated GraphQL code for easier Lens API use.
 

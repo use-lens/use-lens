@@ -1,3 +1,8 @@
+# ⚠️ Deprecation notice ⚠️
+> This library would be deprecated in favor of official [Lens Protocol's SDK](https://github.com/lens-protocol/lens-sdk) on 14th of February 2023.
+
+> No action required
+
 # @use-lens/cli
 A CLI tool to generate Lens API code for different frameworks.
 
