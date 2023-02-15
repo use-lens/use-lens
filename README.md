@@ -1,5 +1,5 @@
 # ⚠️ Deprecation notice ⚠️
-> This experimental set of libraries would be deprecated in favor of official [Lens Protocol's SDK](https://github.com/lens-protocol/lens-sdk) on 14th of February 2023.
+> This experimental set of libraries is deprecated in favor of official [Lens Protocol's SDK](https://github.com/lens-protocol/lens-sdk) on 15th of February 2023.
 
 > For `@use-lens/react-apollo` use "Emergency Eject"(down below)
 > 
